@@ -147,6 +147,7 @@ export function Post({ id, referrer }: Props) {
                       const url = formatter.shareTweetURL({
                         id: post!.id!,
                         address,
+                        text: post!.preview_content,
                       });
                       window.open(url, "_blank");
                     }}
