@@ -1,3 +1,5 @@
+import { formatter } from "./formatters";
+
 interface Options {
   address: string;
   network: number;
@@ -6,6 +8,8 @@ interface Options {
 
 export const getCheckoutConfig = ({ address, network, referrer }: Options) => {
   return {
+    icon: formatter.AbsoluteURL("/cherry.svg"),
+    title: "Alpha Tweet",
     locks: {
       [address]: {
         network,
