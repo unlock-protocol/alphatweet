@@ -39,19 +39,18 @@ export const ogTweetURL = ({ title, author }: OGTweetURLProps) => {
 export const shareTweetURL = ({
   id,
   address,
+  text,
 }: {
   id: string;
   address?: string;
+  text: string;
 }) => {
   const url = new URL("https://twitter.com/intent/tweet");
   const shareURL = new URL(`/posts/${id}`, AppConfig.siteUrl);
   if (address) {
     shareURL.searchParams.set("referrer", address);
   }
-  url.searchParams.set(
-    "text",
-    `Check out this post on ALPHA! ${shareURL.toString()}`
-  );
+  url.searchParams.set("text", `${text}\n\n${shareURL.toString()}`);
   return url.toString();
 };
 

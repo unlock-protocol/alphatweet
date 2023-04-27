@@ -60,8 +60,8 @@ export function Post({ id, referrer }: Props) {
   }, [post, connector, referrer]);
 
   return (
-    <div className="grid w-full h-full gap-12 sm:px-0 sm:grid-cols-12">
-      <div className="w-full h-full border rounded-lg sm:col-span-8 border-brand-blue">
+    <div className="grid w-full h-full">
+      <div className="w-full h-full border rounded-lg border-brand-blue">
         {isPostLoading && (
           <div className="grid gap-6 p-6">
             {Array.from({
@@ -147,6 +147,7 @@ export function Post({ id, referrer }: Props) {
                       const url = formatter.shareTweetURL({
                         id: post!.id!,
                         address,
+                        text: post!.preview_content,
                       });
                       window.open(url, "_blank");
                     }}
@@ -158,16 +159,6 @@ export function Post({ id, referrer }: Props) {
               </div>
             )}
           </div>
-        )}
-      </div>
-      <div className="space-y-6 sm:col-span-4">
-        <Connect showBottom={false} />
-        {post && (
-          <PostStats
-            id={post.id!}
-            address={post.lock_address}
-            network={post.lock_network}
-          />
         )}
       </div>
     </div>

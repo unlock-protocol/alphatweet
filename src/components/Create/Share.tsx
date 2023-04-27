@@ -39,6 +39,7 @@ export function Share() {
             </div>
             <div className="grid gap-1 sm:col-span-4">
               <button
+                disabled={isPostLoading}
                 onClick={async (event) => {
                   event.preventDefault();
                   await addShare({
@@ -47,6 +48,7 @@ export function Share() {
                   const url = formatter.shareTweetURL({
                     id: post_id!,
                     address: accountAddress,
+                    text: post!.preview_content,
                   });
                   window.open(url, "_blank");
                 }}
