@@ -2,60 +2,63 @@ import { trpc } from "@/config/trpc";
 import { ReactComponent as Cherry } from "@/icons/cherry-large.svg";
 import { formatter } from "@/utils/formatters";
 import { ConnectKitButton, useSIWE } from "connectkit";
-import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import { ReactComponent as WalletIcon } from "@/icons/wallet.svg";
+import { ReactNode } from "react";
+
 interface ConnectedProps {
-  showBottom?: boolean;
+  children?: ReactNode;
 }
 
-export function Connect({ showBottom }: ConnectedProps) {
+export function Connect({ children }: ConnectedProps) {
   const { isConnected } = useAccount();
   const { isSignedIn } = useSIWE();
   return isSignedIn && isConnected ? (
-    <Connected showBottom={showBottom} />
+    <Connected>{children}</Connected>
   ) : (
     <NotConnected />
   );
 }
 
 export function ConnectButton() {
-  const { isSignedIn } = useSIWE();
   return (
     <ConnectKitButton.Custom>
-      {({ show, isConnected, truncatedAddress }) => (
+      {({ show }) => (
         <button
           onClick={show}
           aria-label="Connect Wallet"
           className="flex items-center justify-center w-full gap-2 px-4 py-2 font-bold text-gray-300 border border-gray-300 rounded-full"
         >
-          {isConnected
-            ? !isSignedIn
-              ? "Sign in with Ethereum"
-              : truncatedAddress
-            : "Connect Wallet"}
+          Connect Wallet
         </button>
       )}
     </ConnectKitButton.Custom>
   );
 }
 
-interface ConnectedProps {
-  showBottom?: boolean;
-}
-
-export function Connected({ showBottom = true }: ConnectedProps) {
-  const { address } = useAccount();
-  const router = useRouter();
-
+export function Stats() {
   const { data: stats } = trpc.authorStats.useQuery(undefined, {
     initialData: {
       unlocked: 0,
       created: 0,
     },
-    enabled: showBottom,
   });
+  return (
+    <div className="grid grid-cols-2 divide-x divide-brand-dark">
+      <div className="p-6 space-y-2">
+        <div> Created </div>
+        <p className="text-xl font-bold">{stats?.created}</p>
+      </div>
+      <div className="p-6 space-y-2">
+        <div> Unlocked </div>
+        <p className="text-xl font-bold">{stats?.unlocked}</p>
+      </div>
+    </div>
+  );
+}
 
+export function Connected({ children }: ConnectedProps) {
+  const { address } = useAccount();
   return (
     <div
       className="grid w-full divide-y divide-brand-dark rounded-xl bg-brand-pale-blue text-brand-dark"
@@ -84,31 +87,7 @@ export function Connected({ showBottom = true }: ConnectedProps) {
           </ConnectKitButton.Custom>
         </div>
       </div>
-      {showBottom && (
-        <div className="grid grid-cols-2 divide-x divide-brand-dark">
-          <div className="p-6 space-y-2">
-            <div> Created </div>
-            <p className="text-xl font-bold">{stats?.created}</p>
-          </div>
-          <div className="p-6 space-y-2">
-            <div> Unlocked </div>
-            <p className="text-xl font-bold">{stats?.unlocked}</p>
-          </div>
-        </div>
-      )}
-      {showBottom && (
-        <div className="flex items-center justify-between p-6">
-          <button
-            onClick={(event) => {
-              event.preventDefault();
-              router.push("/profile");
-            }}
-            className="flex items-center justify-center w-full gap-2 px-4 py-2 font-bold border rounded-full text-brand-dark border-brand-dark"
-          >
-            View my profile
-          </button>
-        </div>
-      )}
+      {children}
     </div>
   );
 }
@@ -130,9 +109,6 @@ export function NotConnected() {
       </div>
       <div className="grid gap-4 justify-items-center">
         <ConnectButton />
-        <p className="text-sm">
-          Digital wallet is required to create ALPHA and earn reward.
-        </p>
       </div>
     </div>
   );

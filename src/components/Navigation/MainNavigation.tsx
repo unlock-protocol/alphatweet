@@ -2,7 +2,6 @@ import NextLink from "next/link";
 import { ReactComponent as CreateIcon } from "@/icons/create.svg";
 import { ReactComponent as HomeIcon } from "@/icons/home.svg";
 import { ReactComponent as ReferralIcon } from "@/icons/referral.svg";
-import { ReactComponent as DiscoverIcon } from "@/icons/discover.svg";
 import { ReactComponent as ProfileIcon } from "@/icons/profile.svg";
 import { ReactComponent as LogoIcon } from "@/icons/logo.svg";
 import { useRouter } from "next/router";
@@ -33,15 +32,15 @@ const NAVIGATIONAL_ITEMS = [
 export function Navigation() {
   const router = useRouter();
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-10 w-full sm:relative sm:bottom-auto bg-brand-dark">
+    <nav className="fixed bottom-0 z-10 w-full border-b-2 sm:z-0 sm:relative sm:bottom-auto bg-brand-dark border-brand-blue-gray">
       <div className="w-full h-0.5 bg-cherry-shine sm:hidden"></div>
-      <div className="flex items-center justify-between h-20 max-w-5xl px-6 mx-auto ">
-        <div className="hidden sm:flex">
+      <div className="flex items-center justify-between w-full h-20 max-w-5xl p-6 mx-auto">
+        <div className="hidden sm:block">
           <NextLink href="/">
             <LogoIcon />
           </NextLink>
         </div>
-        <div className="flex items-center justify-between w-full max-w-md">
+        <div className="grid w-full max-w-md grid-cols-4 gap-6">
           {NAVIGATIONAL_ITEMS.map((item) => {
             const routerPath = router.pathname
               .split("/")?.[1]
@@ -69,15 +68,5 @@ export function Navigation() {
         </div>
       </div>
     </nav>
-  );
-}
-
-export function MobileTop() {
-  return (
-    <div className="flex items-center justify-start w-full h-20 max-w-5xl p-6 mx-auto sm:hidden">
-      <NextLink href="/">
-        <LogoIcon />
-      </NextLink>
-    </div>
   );
 }

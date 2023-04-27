@@ -28,8 +28,8 @@ export function Preview() {
   return (
     <Layout>
       <Header
-        title="Preview Text"
-        subTitle="Set a teasing preview text to attract viewer unlock and reshare your ALPHAtweet."
+        title="Create Preview Text"
+        subTitle="This is the text people will see when the URL is shared on social media. Get a potential reader's attention with your preview text!"
       />
       <div className="grid gap-6 mt-6">
         <div className="space-y-1">

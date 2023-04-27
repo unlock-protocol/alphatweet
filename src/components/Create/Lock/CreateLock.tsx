@@ -11,7 +11,7 @@ import { ethers } from "ethers";
 import SelectNetwork from "@/components/SelectNetwork";
 import SelectCurrency from "@/components/SelectCurrency";
 import { networks } from "@unlock-protocol/networks";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { useNetwork, useSwitchNetwork } from "wagmi";
 import { onWalletInteractionError } from "@/utils/errors";
 
 interface LockCreateFormData {
@@ -84,7 +84,7 @@ export function CreateLock() {
     >
       <div className="flex items-center justify-between w-full">
         <h3 className="text-lg font-bold text-brand-pale-blue">
-          Create a Lock
+          Create New Lock
         </h3>
         <Disclosure.Button
           className="fill-brand-pale-blue"

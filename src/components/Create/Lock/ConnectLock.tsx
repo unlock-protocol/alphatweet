@@ -59,7 +59,7 @@ export function ConnectLock() {
     >
       <div className="flex items-center justify-between w-full">
         <h3 className="text-lg font-bold text-brand-pale-blue">
-          Connect with existing Lock
+          Use Existing Lock
         </h3>
         <Disclosure.Button
           className="fill-brand-pale-blue"

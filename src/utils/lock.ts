@@ -1,6 +1,5 @@
 import { subgraph } from "@/config/subgraph";
 import { ethers } from "ethers";
-import { useQuery } from "wagmi";
 import {
   getErc20Decimals,
   getErc20TokenSymbol,
@@ -64,6 +63,19 @@ export async function getLock({ address, network }: Options) {
     formatted: {
       price: ethers.utils.formatUnits(response.price, decimals),
       referral: Math.round((referral || 0) / 100),
+      referralFee: ethers.utils.formatUnits(
+        ethers.BigNumber.from(response.price)
+          .mul(Math.round((referral || 0) / 100))
+          .div(100),
+        decimals
+      ),
+      totalReferralFee: ethers.utils.formatUnits(
+        ethers.BigNumber.from(response.price)
+          .mul(Math.round((referral || 0) / 100))
+          .div(100)
+          .mul(response.totalKeys),
+        decimals
+      ),
       quantity:
         response.maxNumberOfKeys === ethers.constants.MaxUint256.toString()
           ? "Unlimited"
