@@ -60,13 +60,21 @@ export const appRouter = router({
       }
       const parsed = Post.parse(post);
       const hasKeyPromise = owner
-        ? UnlockWeb3Client.getHasValidKey(
-            parsed.lock_address,
-            owner,
-            parsed.lock_network
-          )
-        : false;
-      const hasKey = await hasKeyPromise;
+        ? await Promise.all([
+            UnlockWeb3Client.getHasValidKey(
+              parsed.lock_address,
+              owner,
+              parsed.lock_network
+            ),
+            UnlockWeb3Client.isLockManager(
+              parsed.lock_address,
+              owner,
+              parsed.lock_network
+            ),
+          ])
+        : [false, false];
+
+      const hasKey = hasKeyPromise[0] || hasKeyPromise[1];
       return z
         .object({
           hasAccess: z.boolean(),
