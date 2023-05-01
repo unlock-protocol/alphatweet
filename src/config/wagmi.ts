@@ -1,25 +1,9 @@
 import { networks } from "@unlock-protocol/networks";
-import { Chain, Connector, configureChains, createClient } from "wagmi";
+import { Chain, configureChains, createClient } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { AppConfig } from "./app";
 import { getDefaultClient } from "connectkit";
-import { ethers, getDefaultProvider } from "ethers";
-import { getNetwork } from "@ethersproject/networks";
-
-export const getProvider = (_config: {
-  chainId?: number;
-  connector?: Connector;
-}) => {
-  let windowProvider: any = window.ethereum;
-  let provider: any;
-  if (!windowProvider) {
-    provider = getDefaultProvider(getNetwork(_config.chainId ?? 1));
-  } else {
-    provider = new ethers.providers.Web3Provider(windowProvider);
-  }
-  return provider;
-};
 
 const chains = Object.values(networks).map((item: any) => {
   return {
