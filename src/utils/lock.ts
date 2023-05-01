@@ -75,7 +75,7 @@ export async function getLock({ address, network }: Options) {
         ethers.BigNumber.from(response.price)
           .mul(Math.round((referral || 0) / 100))
           .div(100)
-          .mul(response.totalKeys),
+          .mul(response.totalKeys || 0),
         decimals
       ),
       quantity:

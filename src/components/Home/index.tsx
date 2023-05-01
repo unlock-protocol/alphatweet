@@ -2,6 +2,7 @@ import { Button } from "../Button";
 import { Connect } from "../Connect";
 import { HomeFeed } from "../Feed";
 import NextLink from "next/link";
+
 export function Home() {
   return (
     <div className="grid gap-12 sm:grid-cols-12">

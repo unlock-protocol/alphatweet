@@ -9,14 +9,20 @@ interface Options {
 export const useLock = ({ address, network }: Partial<Options>) => {
   return useQuery(
     ["subgraph", "lock", network, address],
-    () => {
+    async () => {
       if (!address || !network) {
-        return;
+        return {};
       }
-      return getLock({
-        address,
-        network,
-      });
+      try {
+        const lock = await getLock({
+          address,
+          network,
+        });
+        return lock;
+      } catch (error) {
+        console.error(error);
+        return {};
+      }
     },
     {
       enabled: !!address && !!network,
