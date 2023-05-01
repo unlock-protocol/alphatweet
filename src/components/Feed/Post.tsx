@@ -44,7 +44,7 @@ export function Post({
         )}
       </div>
       <div>{previewContent}</div>
-      <div className="grid w-full grid-cols-3 gap-6">
+      <div className="grid w-full gap-2 sm:grid-cols-3">
         <div className="flex items-center gap-2 text-gray-500">
           <TagIcon />{" "}
           {lock && (

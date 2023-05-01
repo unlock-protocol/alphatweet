@@ -31,20 +31,22 @@ export async function getLock({ address, network }: Options) {
   const provider = new ethers.providers.JsonRpcProvider(
     networks[network].provider
   );
+  const referralFeePromise = UnlockWeb3Client.referrerFees({
+    lockAddress: response.address,
+    network: response.network,
+    address: ethers.constants.AddressZero,
+  });
 
-  const [decimals, tokenSymbol, referral] =
+  const [decimals, tokenSymbol, referral] = await Promise.all(
     response.tokenAddress &&
-    response.tokenAddress !== ethers.constants.AddressZero
-      ? await Promise.all([
+      response.tokenAddress !== ethers.constants.AddressZero
+      ? [
           getErc20Decimals(response.tokenAddress, provider),
           getErc20TokenSymbol(response.tokenAddress, provider),
-          UnlockWeb3Client.referrerFees({
-            lockAddress: response.address,
-            network: response.network,
-            address: ethers.constants.AddressZero,
-          }),
-        ])
-      : [18, networks[network].nativeCurrency.symbol, 0];
+          referralFeePromise,
+        ]
+      : [18, networks[network].nativeCurrency.symbol, referralFeePromise]
+  );
 
   return {
     decimals,
