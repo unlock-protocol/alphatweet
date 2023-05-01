@@ -1,2 +1,2 @@
 export { HomeFeed } from "./HomeFeed";
-export { AuthorFeed } from "./AuthorFeed";
+export { AuthorHome as AuthorFeed } from "./AuthorFeed";

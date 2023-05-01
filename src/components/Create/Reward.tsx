@@ -37,9 +37,7 @@ export function Reward() {
     <Layout>
       <Header
         title="Reward your followers"
-        subTitle="ALPHA is all about engaging community and put the little cherry on top
-        of your content. Set up the referral percentage so your follower can
-        earn by sharing your content to their connections."
+        subTitle="Set up the referral percentage so your readers can earn a share of the content price by sharing your content to their connections."
       />
       {isLockLoading && <Loading />}
       {!isLockLoading && (

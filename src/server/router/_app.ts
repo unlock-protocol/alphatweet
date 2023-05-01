@@ -37,7 +37,7 @@ export const appRouter = router({
       .select("*")
       .order("updated_at", { ascending: false })
       .filter("is_published", "eq", true)
-      .limit(5);
+      .limit(100);
     if (response.error) {
       throw new Error(response.error.message);
     }
@@ -160,7 +160,7 @@ export const appRouter = router({
         .in("lock_address", lockAddresses)
         .eq("is_published", true)
         .order("updated_at", { ascending: false })
-        .limit(25);
+        .limit(100);
 
       if (response.error) {
         throw new Error(response.error.message);
@@ -181,7 +181,7 @@ export const appRouter = router({
         .eq("is_published", true)
         .eq("author_address", address)
         .order("updated_at", { ascending: false })
-        .limit(25);
+        .limit(100);
 
       if (response.error) {
         throw new Error(response.error.message);
@@ -220,6 +220,8 @@ export const appRouter = router({
     return {
       created: created.count,
       unlocked: unlocked.count,
+      totalEarned: "50 USDC",
+      totalSold: 50,
     };
   }),
 
@@ -258,8 +260,26 @@ export const appRouter = router({
         .eq("post_id", post_id);
       return {
         shares: shares.count,
+        earned: "20 USDC",
       };
     }),
+
+  TopReferralFeed: procedure.query(async () => {
+    // Temporary - until subgraph has referral data
+    const response = await supabaseAdminClient.rpc(
+      "get_author_post_share_count"
+    );
+
+    if (response.error) {
+      throw new Error(response.error.message);
+    }
+    return response.data?.map((item: any) => {
+      return {
+        author_address: item.author_address,
+        share_count: item.share_count,
+      } as const;
+    });
+  }),
 });
 
 // export type definition of API

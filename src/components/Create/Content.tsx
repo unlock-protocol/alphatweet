@@ -12,8 +12,8 @@ export function Content() {
     <Layout>
       <div className="space-y-6">
         <Header
-          title="Content"
-          subTitle="This content is what your follower will see after unlock the tweet."
+          title="Create Content"
+          subTitle="Your readers will only be able to read this after they unlock access."
         />
         <Editor value={content} onChange={setContent} />
         <Button

@@ -1,6 +1,7 @@
+import { Button } from "../Button";
 import { Connect } from "../Connect";
 import { HomeFeed } from "../Feed";
-
+import NextLink from "next/link";
 export function Home() {
   return (
     <div className="grid gap-12 sm:grid-cols-12">
@@ -8,7 +9,13 @@ export function Home() {
         <HomeFeed />
       </div>
       <div className="w-full sm:col-span-4">
-        <Connect />
+        <Connect>
+          <div className="p-6 border-t">
+            <NextLink href="/create">
+              <Button color="outline"> Create Alpha Tweet</Button>
+            </NextLink>
+          </div>
+        </Connect>
       </div>
     </div>
   );

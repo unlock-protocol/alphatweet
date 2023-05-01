@@ -4,39 +4,52 @@ import NextLink from "next/link";
 import { formatter } from "@/utils/formatters";
 import { Tab } from "@headlessui/react";
 import { ReactComponent as CherryRedIcon } from "@/icons/cherry-icon-red.svg";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 interface Props {
-  address: string;
+  feedItems?: any[];
+  isFeedLoading: boolean;
 }
 
-export function AuthorCreatedFeed({ address }: Props) {
-  const { data: feed, isLoading: isFeedLoading } =
-    trpc.authorCreatedFeed.useQuery({
-      address,
-    });
-
-  const items = feed || [];
+export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
   return (
-    <div className="grid gap-6">
-      {isFeedLoading &&
-        Array.from({
-          length: 5,
-        }).map((_, index) => <PostPlaceholder key={index} />)}
-      {!isFeedLoading &&
-        items.map((item) => (
-          <NextLink key={item.id} href={`/posts/${item.id}`}>
-            <Post
-              id={item.id}
-              previewContent={item.preview_content}
-              author={item.author_address}
-              lockAddress={item.lock_address}
-              network={item.lock_network}
-            />
-          </NextLink>
-        ))}
-      {!isFeedLoading && items.length <= 0 && (
-        <FeedEmptyPlaceholder text="You haven't created any alphas yet." />
-      )}
-    </div>
+    <ScrollArea.Root className="w-full h-full overflow-hidden rounded">
+      <ScrollArea.Viewport className="w-full rounded max-h-96">
+        <div className="grid gap-6">
+          {isFeedLoading &&
+            Array.from({
+              length: 5,
+            }).map((_, index) => <PostPlaceholder key={index} />)}
+          {!isFeedLoading &&
+            feedItems?.map((item) => (
+              <NextLink key={item.id} href={`/posts/${item.id}`}>
+                <Post
+                  id={item.id}
+                  previewContent={item.preview_content}
+                  author={item.author_address}
+                  lockAddress={item.lock_address}
+                  network={item.lock_network}
+                />
+              </NextLink>
+            ))}
+          {!isFeedLoading && Number(feedItems?.length) <= 0 && (
+            <FeedEmptyPlaceholder text="You haven't created any alphas yet." />
+          )}
+        </div>
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar
+        className="flex select-none touch-none p-0.5 bg-brand-dark transition-colors duration-[160ms] ease-out hover:bg-blackA8 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+        orientation="vertical"
+      >
+        <ScrollArea.Thumb className="flex-1 bg-brand-blue-gray rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+      </ScrollArea.Scrollbar>
+      <ScrollArea.Scrollbar
+        className="flex select-none touch-none p-0.5 bg-brand-dark transition-colors duration-[160ms] ease-out hover:bg-blackA8 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+        orientation="horizontal"
+      >
+        <ScrollArea.Thumb className="flex-1 bg-brand-blue-gray  rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+      </ScrollArea.Scrollbar>
+      <ScrollArea.Corner className="bg-brand-dark" />
+    </ScrollArea.Root>
   );
 }
 
@@ -53,41 +66,24 @@ export function FeedEmptyPlaceholder({ text }: FeedEmptyPlaceholderProps) {
   );
 }
 
-export function AuthorPurchasedFeed({ address }: Props) {
-  const { data: feed, isLoading: isFeedLoading } =
+interface AuthorHomeProps {
+  address: string;
+}
+
+export function AuthorHome({ address }: AuthorHomeProps) {
+  const { data: authorCreatedFeed, isLoading: isAuthorCreatedFeedLoading } =
+    trpc.authorCreatedFeed.useQuery({
+      address,
+    });
+
+  const { data: authorPurchaseFeed, isLoading: isAuthorPurchasingFeedLoading } =
     trpc.authorPurchaseFeed.useQuery({
       address,
     });
 
-  const items = feed || [];
-  return (
-    <div className="grid gap-6">
-      {isFeedLoading &&
-        Array.from({
-          length: 5,
-        }).map((_, index) => <PostPlaceholder key={index} />)}
-      {!isFeedLoading &&
-        items.map((item) => (
-          <NextLink key={item.id} href={`/posts/${item.id}`}>
-            <Post
-              id={item.id}
-              previewContent={item.preview_content}
-              author={item.author_address}
-              lockAddress={item.lock_address}
-              network={item.lock_network}
-            />
-          </NextLink>
-        ))}
-      {!isFeedLoading && items.length <= 0 && (
-        <FeedEmptyPlaceholder text="You haven't purchased any alphas yet." />
-      )}
-    </div>
-  );
-}
+  const authorCreatedFeedItems = authorCreatedFeed || [];
+  const authorPurchasedFeedItems = authorPurchaseFeed || [];
 
-const Items = ["Created", "Purchased"];
-
-export function AuthorFeed({ address }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 p-4 m-2 rounded-lg bg-blue-yellow sm:grid-cols-12">
@@ -97,27 +93,45 @@ export function AuthorFeed({ address }: Props) {
       </div>
       <Tab.Group>
         <Tab.List className="flex p-1 space-x-1 rounded-xl ">
-          {Items.map((item) => (
-            <Tab
-              key={item}
-              className={({ selected }) =>
-                `w-full py-2.5 font-medium  leading-5 border-b ${
-                  selected
-                    ? " text-brand-pale-blue border-brand-pale-blue"
-                    : "text-white border-transparent"
-                }`
-              }
-            >
-              {item}
-            </Tab>
-          ))}
+          <Tab
+            className={({ selected }) =>
+              `w-full py-2.5 font-medium  leading-5 border-b ${
+                selected
+                  ? " text-brand-pale-blue border-brand-pale-blue"
+                  : "text-white border-transparent"
+              }`
+            }
+          >
+            Created{" "}
+            {!isAuthorCreatedFeedLoading &&
+              `(${authorCreatedFeedItems.length})`}
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              `w-full py-2.5 font-medium  leading-5 border-b ${
+                selected
+                  ? " text-brand-pale-blue border-brand-pale-blue"
+                  : "text-white border-transparent"
+              }`
+            }
+          >
+            Unlocked
+            {!isAuthorPurchasingFeedLoading &&
+              `(${authorPurchasedFeedItems.length})`}
+          </Tab>
         </Tab.List>
         <Tab.Panels className="mt-6">
           <Tab.Panel>
-            <AuthorCreatedFeed address={address} />
+            <AuthorFeed
+              feedItems={authorCreatedFeedItems}
+              isFeedLoading={isAuthorCreatedFeedLoading}
+            />
           </Tab.Panel>
           <Tab.Panel>
-            <AuthorPurchasedFeed address={address} />
+            <AuthorFeed
+              feedItems={authorPurchasedFeedItems}
+              isFeedLoading={isAuthorPurchasingFeedLoading}
+            />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

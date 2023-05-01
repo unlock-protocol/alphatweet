@@ -5,6 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { Post } from "@/components/Post";
+import PostLayout from "@/components/Layouts/PostLayout";
 
 const PostPage: NextPage = ({ preview_content, author_address }: any) => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
   const referrer = router.query?.referrer?.toString();
 
   return (
-    <DefaultLayout>
+    <PostLayout>
       <NextSeo
         title={`Alpha shared by ${formatter.minifyAddress(author_address)}`}
         description={preview_content}
@@ -32,7 +33,7 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
       />
       {!id && <div> No post found </div>}
       {id && <Post id={id} referrer={referrer} />}
-    </DefaultLayout>
+    </PostLayout>
   );
 };
 

@@ -1,11 +1,10 @@
 import { ReactComponent as TagIcon } from "@/icons/tag.svg";
 import { ReactComponent as QuantityIcon } from "@/icons/quantity.svg";
-import { ReactComponent as Retweet } from "@/icons/retweet.svg";
 import { formatter } from "@/utils/formatters";
-import { trpc } from "@/config/trpc";
 import { useLock } from "@/hooks/useLock";
 import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg";
-
+import { BiDollarCircle as EarnedIcon } from "react-icons/bi";
+import { ethers } from "ethers";
 interface Props {
   id: string;
   previewContent: string;
@@ -33,9 +32,6 @@ export function Post({
     address: lockAddress,
     network,
   });
-  const { data: stats } = trpc.postStats.useQuery({
-    post_id: id,
-  });
 
   return (
     <div className="grid w-full gap-4 p-4 bg-brand-blue-gray rounded-xl">
@@ -48,11 +44,12 @@ export function Post({
         )}
       </div>
       <div>{previewContent}</div>
-      <div className="flex items-center justify-between w-full">
+      <div className="grid w-full grid-cols-3 gap-6">
         <div className="flex items-center gap-2 text-gray-500">
           <TagIcon />{" "}
           {lock && (
             <span>
+              Price:{" "}
               {lock.price <= 0
                 ? "FREE"
                 : lock.formatted?.price + " " + lock.tokenSymbol ?? ""}{" "}
@@ -61,11 +58,20 @@ export function Post({
         </div>
         <div className="flex items-center gap-2 text-gray-500">
           <QuantityIcon />
-          {lock && <span>{lock?.formatted?.quantity}</span>}
+          {lock && <span>Fee: {lock?.formatted?.referral}%</span>}
         </div>
         <div className="flex items-center gap-2 text-gray-500">
-          <Retweet />
-          {stats && <span>{stats.shares}</span>}
+          <EarnedIcon size={28} />
+          {lock && (
+            <span>
+              Earned:{" "}
+              {ethers.utils.formatUnits(
+                ethers.BigNumber.from(lock.price).mul(lock.sold),
+                lock.decimals
+              )}{" "}
+              {lock.tokenSymbol}
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ export function Lock() {
       <div className="space-y-6">
         <Header
           title="Gate Settings"
-          subTitle="ALPHAtweet is powered by Unlock Protocol. You can use any existing Lock or create one right here, it's super simple to deploy the contract."
+          subTitle="ALPHAtweet is powered by the Unlock Protocol. You can use an existing Lock or create a new one right here, to token-gate your content."
         />
         <CreateLock />
         <ConnectLock />

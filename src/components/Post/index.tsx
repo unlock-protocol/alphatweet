@@ -1,4 +1,3 @@
-import { Connect } from "@/components/Connect";
 import { trpc } from "@/config/trpc";
 import { formatter } from "@/utils/formatters";
 import { ConnectKitButton, useSIWE } from "connectkit";
@@ -8,7 +7,7 @@ import { useCallback, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { getCheckoutConfig } from "@/utils/checkout";
 import { networks } from "@unlock-protocol/networks";
-import { PostStats } from "./Stats";
+import { useLock } from "@/hooks/useLock";
 
 interface Props {
   id: string;
@@ -26,7 +25,10 @@ export function Post({ id, referrer }: Props) {
   });
 
   const { mutateAsync: addShare } = trpc.addShare.useMutation();
-
+  const { isLoading: isLockLoading, data: lock } = useLock({
+    address: post?.lock_address,
+    network: post?.lock_network,
+  });
   const { connector, address } = useAccount();
   useEffect(() => {
     const handler = (_event: any) => {
@@ -60,8 +62,8 @@ export function Post({ id, referrer }: Props) {
   }, [post, connector, referrer]);
 
   return (
-    <div className="grid w-full h-full gap-12 sm:px-0 sm:grid-cols-12">
-      <div className="w-full h-full border rounded-lg sm:col-span-8 border-brand-blue">
+    <div className="grid w-full h-full border border-brand-pale-blue rounded-xl">
+      <div className="w-full h-full">
         {isPostLoading && (
           <div className="grid gap-6 p-6">
             {Array.from({
@@ -75,22 +77,16 @@ export function Post({ id, referrer }: Props) {
           </div>
         )}
         {!isPostLoading && (
-          <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between border-b border-brand-blue">
-              <div className="flex flex-col gap-1 p-2">
+          <div className="flex flex-col h-full ">
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1 p-4">
                 <div className="text-sm text-gray-400"> Created By</div>
                 <div className="font-bold rounded text-brand-blue">
                   {formatter.minifyAddress(post!.author_address)}
                 </div>
               </div>
-              <div className="flex flex-col gap-1 p-2 text-right">
-                <div className="text-sm text-gray-400"> Published on</div>
-                <div className="font-bold rounded text-brand-blue">
-                  {new Date(post!.created_at).toLocaleDateString()}
-                </div>
-              </div>
             </div>
-            <Markdown className="flex-1 w-full p-2 overflow-auto prose prose-invert">
+            <Markdown className="flex-1 w-full p-4 overflow-auto prose prose-invert">
               {post!.content}
             </Markdown>
 
@@ -98,7 +94,9 @@ export function Post({ id, referrer }: Props) {
               <div className="flex items-center justify-between gap-4 p-4 m-2 rounded-lg bg-blue-yellow sm:grid-cols-12">
                 <div className="sm:col-span-8">
                   <p className="font-medium text-brand-blue-gray">
-                    This is a preview post.
+                    {lock?.sold > 10
+                      ? `${lock?.sold} people have unlocked this post for ${lock?.formatted?.price} ${lock?.tokenSymbol}`
+                      : `Be one of the first to unlock this post for ${lock?.formatted?.price} ${lock?.tokenSymbol}`}
                   </p>
                 </div>
                 <div className="grid gap-1 sm:col-span-4">
@@ -115,11 +113,11 @@ export function Post({ id, referrer }: Props) {
                         }}
                         className="flex items-center px-4 py-2 text-sm font-bold border rounded-full border-brand-dark text-brand-dark"
                       >
-                        {isConnected
-                          ? !isSignedIn
-                            ? "Sign in with Ethereum"
-                            : "Buy NFT to Access"
-                          : "Connect to Access"}
+                        {isConnected && !isSignedIn
+                          ? "Connect to Access"
+                          : lock?.price > 0
+                          ? "Buy Access"
+                          : "Access Content"}
                       </button>
                     )}
                   </ConnectKitButton.Custom>
@@ -133,8 +131,12 @@ export function Post({ id, referrer }: Props) {
                     Share is rewarding!
                   </h3>
                   <p className="text-gray-700">
-                    The creator has set % of referral fee if someone unlocks
-                    your share tweet, join the force. 🙌​
+                    Earn {lock?.formatted?.referralFee} {lock?.tokenSymbol} for
+                    every person who unlocks this post using your referral link.
+                  </p>
+                  <p className="text-gray-700">
+                    People have earned over {lock?.formatted?.totalReferralFee}{" "}
+                    {lock?.tokenSymbol} from sharing this post.
                   </p>
                 </div>
                 <div className="sm:col-span-4">
@@ -159,16 +161,6 @@ export function Post({ id, referrer }: Props) {
               </div>
             )}
           </div>
-        )}
-      </div>
-      <div className="space-y-6 sm:col-span-4">
-        <Connect showBottom={false} />
-        {post && (
-          <PostStats
-            id={post.id!}
-            address={post.lock_address}
-            network={post.lock_network}
-          />
         )}
       </div>
     </div>
