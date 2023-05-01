@@ -8,6 +8,7 @@ import { useAccount } from "wagmi";
 import { getCheckoutConfig } from "@/utils/checkout";
 import { networks } from "@unlock-protocol/networks";
 import { useLock } from "@/hooks/useLock";
+import { AppConfig } from "@/config/app";
 
 interface Props {
   id: string;
@@ -44,21 +45,16 @@ export function Post({ id, referrer }: Props) {
     if (!(post && connector)) {
       return null;
     }
-    // const provider = await connector.getProvider({
-    //   chainId: post.lock_network,
-    // });
+    const provider = await connector.getProvider({
+      chainId: post.lock_network,
+    });
     const config = getCheckoutConfig({
       address: post.lock_address,
       network: post.lock_network,
       referrer,
     });
-    const paywall = new Paywall(
-      config,
-      networks
-      // need to figure out how to make this work reliably
-      // new ethers.providers.Web3Provider(provider)
-    );
-    await paywall.loadCheckoutModal();
+    const paywall = new Paywall(config, networks, provider);
+    await paywall.loadCheckoutModal(config, AppConfig.unlockAppUrl);
   }, [post, connector, referrer]);
 
   return (

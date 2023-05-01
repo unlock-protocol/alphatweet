@@ -8,4 +8,5 @@ export const AppConfig = {
   walletConnectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_ID!,
   editorNamespace: "alpha_tweet",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
+  unlockAppUrl: process.env.NEXT_PUBLIC_UNLOCK_APP_URL!,
 } as const;
