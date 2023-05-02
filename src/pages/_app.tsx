@@ -24,7 +24,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   useEffect(() => {
-    hotjar.initialize(AppConfig.hotjarId, 6);
+    if (AppConfig.hotjarId) {
+      hotjar.initialize(AppConfig.hotjarId, 6);
+    }
   }, []);
 
   return (
