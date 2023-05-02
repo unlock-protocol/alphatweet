@@ -4,7 +4,7 @@ import NextLink from "next/link";
 const FOOTER_ITEMS = [
   {
     name: "Discord",
-    href: "https://discord.gg/unlock-protocol",
+    href: "https://discord.unlock-protocol.com",
   },
   {
     href: "/privacy",
