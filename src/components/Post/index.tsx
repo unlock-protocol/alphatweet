@@ -4,13 +4,13 @@ import { ConnectKitButton, useSIWE } from "connectkit";
 import Markdown from "react-markdown";
 import { Paywall } from "@unlock-protocol/paywall";
 import { useCallback, useEffect } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useQuery } from "wagmi";
 import { getCheckoutConfig } from "@/utils/checkout";
 import { networks } from "@unlock-protocol/networks";
 import { useLock } from "@/hooks/useLock";
 import { AppConfig } from "@/config/app";
-import { CopyLink } from "../Create/Share";
 import useClipboard from "react-use-clipboard";
+import { subgraph } from "@/config/subgraph";
 
 interface Props {
   id: string;
@@ -35,16 +35,46 @@ export function Post({ id, referrer }: Props) {
     address: post?.lock_address,
     network: post?.lock_network,
   });
+
   const { connector, address } = useAccount();
+
+  const {
+    isLoading: isKeyLoading,
+    data: key,
+    refetch: refetchKey,
+  } = useQuery(
+    ["subgraph", "key", post?.lock_network, post?.lock_address, address],
+    async () => {
+      const key = subgraph.key(
+        {
+          where: {
+            lock: post!.lock_address!.toLowerCase()?.trim(),
+            owner: address!.toLowerCase()?.trim(),
+          },
+        },
+        {
+          network: post!.lock_network,
+        }
+      );
+      return key ?? null;
+    },
+    {
+      enabled: Boolean(
+        isSignedIn && post?.lock_address && post?.lock_network && address
+      ),
+    }
+  );
+
   useEffect(() => {
-    const handler = (_event: any) => {
-      return refetchPost();
+    const handler = async (_event: any) => {
+      await refetchPost();
+      await refetchKey();
     };
     window.addEventListener("unlockProtocol.status", handler);
     return () => {
       window.removeEventListener("unlockProtocol.status", handler);
     };
-  }, [refetchPost]);
+  }, [refetchPost, refetchKey]);
 
   const openCheckout = useCallback(async () => {
     if (!(post && connector)) {
@@ -62,10 +92,13 @@ export function Post({ id, referrer }: Props) {
     await paywall.loadCheckoutModal(config, AppConfig.unlockAppUrl);
   }, [post, connector, referrer]);
 
+  const keychainURL = new URL("/keychain", AppConfig.unlockAppUrl).toString();
+
+  const isLoading = isPostLoading || isLockLoading;
   return (
     <div className="grid w-full h-full border border-brand-pale-blue rounded-xl">
       <div className="w-full h-full">
-        {isPostLoading && (
+        {isLoading && (
           <div className="grid gap-6 p-6">
             {Array.from({
               length: 5,
@@ -77,15 +110,45 @@ export function Post({ id, referrer }: Props) {
             ))}
           </div>
         )}
-        {!isPostLoading && (
+        {!isLoading && (
           <div className="flex flex-col h-full ">
             <div className="flex items-center justify-between border-b">
-              <div className="flex flex-col gap-1 p-4">
+              {lock && !isLockLoading && (
+                <div className="flex flex-col gap-1 p-4">
+                  <div className="text-sm text-gray-400"> Locked By</div>
+                  <div className="font-bold rounded text-brand-blue">
+                    {lock?.name}
+                  </div>
+                </div>
+              )}
+              <div className="flex-col hidden gap-1 p-4 md:flex">
                 <div className="text-sm text-gray-400"> Created By</div>
                 <div className="font-bold rounded text-brand-blue">
                   {formatter.minifyAddress(post!.author_address)}
                 </div>
               </div>
+              {referrer && (
+                <div className="flex-col hidden gap-1 p-4 md:flex">
+                  <div className="text-sm text-gray-400"> Referred By</div>
+                  <div className="font-bold rounded text-brand-blue">
+                    {formatter.minifyAddress(referrer)}
+                  </div>
+                </div>
+              )}
+              {key && !isKeyLoading && (
+                <div className="flex flex-col gap-1 p-4">
+                  <div className="text-sm text-gray-400"> Token </div>
+
+                  <a
+                    href={keychainURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold rounded text-brand-blue"
+                  >
+                    {key.tokenId}
+                  </a>
+                </div>
+              )}
             </div>
             <Markdown className="flex-1 w-full p-4 overflow-auto prose prose-invert">
               {post!.content}
