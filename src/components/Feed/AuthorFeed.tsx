@@ -105,9 +105,9 @@ export function AuthorHome({ address }: AuthorHomeProps) {
               }`
             }
           >
-            Created{" "}
-            {!isAuthorCreatedFeedLoading &&
-              `(${authorCreatedFeedItems.length})`}
+            Unlocked{" "}
+            {!isAuthorPurchasingFeedLoading &&
+              `(${authorPurchasedFeedItems.length})`}
           </Tab>
           <Tab
             className={({ selected }) =>
@@ -118,22 +118,22 @@ export function AuthorHome({ address }: AuthorHomeProps) {
               }`
             }
           >
-            Unlocked
-            {!isAuthorPurchasingFeedLoading &&
-              `(${authorPurchasedFeedItems.length})`}
+            Created{" "}
+            {!isAuthorCreatedFeedLoading &&
+              `(${authorCreatedFeedItems.length})`}
           </Tab>
         </Tab.List>
         <Tab.Panels className="mt-6">
           <Tab.Panel>
             <AuthorFeed
-              feedItems={authorCreatedFeedItems}
-              isFeedLoading={isAuthorCreatedFeedLoading}
+              feedItems={authorPurchasedFeedItems}
+              isFeedLoading={isAuthorPurchasingFeedLoading}
             />
           </Tab.Panel>
           <Tab.Panel>
             <AuthorFeed
-              feedItems={authorPurchasedFeedItems}
-              isFeedLoading={isAuthorPurchasingFeedLoading}
+              feedItems={authorCreatedFeedItems}
+              isFeedLoading={isAuthorCreatedFeedLoading}
             />
           </Tab.Panel>
         </Tab.Panels>
