@@ -22,7 +22,7 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
           description: preview_content,
           images: [
             {
-              alt: "Alpha Tweet Post",
+              alt: "AlphaTweet Post",
               url: formatter.ogTweetURL({
                 title: preview_content,
                 author: author_address,

@@ -27,11 +27,11 @@ export const routes: Routes = {
     label: "About",
     seo: customizeSEO({
       title: "About",
-      description: "About Alpha Tweet",
+      description: "About AlphaTweet",
       path: "/about",
       imagePath: formatter.ogPageURL({
         title: "About",
-        description: "About Alpha Tweet",
+        description: "About AlphaTweet",
       }),
     }),
   },

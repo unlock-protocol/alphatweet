@@ -30,7 +30,7 @@ export function CreateLock() {
     setValue,
   } = useForm<LockCreateFormData>({
     defaultValues: {
-      name: "Alpha Tweet Lock",
+      name: "AlphaTweet Lock",
       duration: 30,
       price: 100,
     },
@@ -42,8 +42,10 @@ export function CreateLock() {
     defaultNetwork.nativeCurrency
   );
   const { chain } = useNetwork();
-  const { switchNetworkAsync, isLoading: isSwitchingNetwork } =
-    useSwitchNetwork();
+  const {
+    switchNetworkAsync,
+    isLoading: isSwitchingNetwork,
+  } = useSwitchNetwork();
 
   const onSubmit = useCallback(
     async (data: LockCreateFormData) => {

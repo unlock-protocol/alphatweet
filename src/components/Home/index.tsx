@@ -13,7 +13,7 @@ export function Home() {
         <Connect>
           <div className="p-6 border-t">
             <NextLink href="/create">
-              <Button color="outline"> Create Alpha Tweet</Button>
+              <Button color="outline"> Create AlphaTweet</Button>
             </NextLink>
           </div>
         </Connect>
