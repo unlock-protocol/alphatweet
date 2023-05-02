@@ -79,7 +79,7 @@ export function Post({ id, referrer }: Props) {
         )}
         {!isPostLoading && (
           <div className="flex flex-col h-full ">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b">
               <div className="flex flex-col gap-1 p-4">
                 <div className="text-sm text-gray-400"> Created By</div>
                 <div className="font-bold rounded text-brand-blue">
