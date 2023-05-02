@@ -50,7 +50,7 @@ export function CreateLock() {
       try {
         const wallet = await walletService.connect();
         const lockAddress = await wallet.createLock({
-          publicLockVersion: 12,
+          publicLockVersion: 13,
           expirationDuration: data.duration * 86400,
           maxNumberOfKeys: ethers.constants.MaxUint256.toString(),
           keyPrice: data.price.toString(),
