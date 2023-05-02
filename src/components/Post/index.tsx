@@ -9,6 +9,8 @@ import { getCheckoutConfig } from "@/utils/checkout";
 import { networks } from "@unlock-protocol/networks";
 import { useLock } from "@/hooks/useLock";
 import { AppConfig } from "@/config/app";
+import { CopyLink } from "../Create/Share";
+import useClipboard from "react-use-clipboard";
 
 interface Props {
   id: string;
@@ -17,6 +19,9 @@ interface Props {
 
 export function Post({ id, referrer }: Props) {
   const { isSignedIn } = useSIWE();
+  const [isCopied, copy] = useClipboard(formatter.AbsoluteURL(`/posts/${id}`), {
+    successDuration: 1000,
+  });
   const {
     data: post,
     isLoading: isPostLoading,
@@ -109,7 +114,7 @@ export function Post({ id, referrer }: Props) {
                         }}
                         className="flex items-center px-4 py-2 text-sm font-bold border rounded-full border-brand-dark text-brand-dark"
                       >
-                        {isConnected && !isSignedIn
+                        {!isConnected && !isSignedIn
                           ? "Connect to Access"
                           : lock?.price > 0
                           ? "Buy Access"
@@ -124,18 +129,19 @@ export function Post({ id, referrer }: Props) {
               <div className="grid p-4 m-2 rounded-lg gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
                 <div className="sm:col-span-8">
                   <h3 className="text-lg font-bold text-brand-blue-gray">
-                    Share is rewarding!
+                    Sharing is rewarding!
                   </h3>
                   <p className="text-gray-700">
-                    Earn {lock?.formatted?.referralFee} {lock?.tokenSymbol} for
-                    every person who unlocks this post using your referral link.
+                    You earn {lock?.formatted?.referralFee} {lock?.tokenSymbol}{" "}
+                    for every person who unlocks this post using your referral
+                    link.
                   </p>
                   <p className="text-gray-700">
                     People have earned over {lock?.formatted?.totalReferralFee}{" "}
                     {lock?.tokenSymbol} from sharing this post.
                   </p>
                 </div>
-                <div className="sm:col-span-4">
+                <div className="flex flex-col items-center gap-4 sm:col-span-4">
                   <button
                     onClick={async (event) => {
                       event.preventDefault();
@@ -151,7 +157,16 @@ export function Post({ id, referrer }: Props) {
                     }}
                     className="flex items-center justify-center w-full px-4 py-2 text-sm font-bold border rounded-full border-brand-dark text-brand-dark"
                   >
-                    Share
+                    Share on Twitter
+                  </button>
+                  <button
+                    className="text-sm font-semibold text-brand-dark"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      copy();
+                    }}
+                  >
+                    {isCopied ? "Copied!" : "Copy Link"}
                   </button>
                 </div>
               </div>
