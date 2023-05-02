@@ -5,6 +5,7 @@ import { formatter } from "@/utils/formatters";
 import { Tab } from "@headlessui/react";
 import { ReactComponent as CherryRedIcon } from "@/icons/cherry-icon-red.svg";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import ToolTip from "../Tooltip";
 interface Props {
   feedItems?: any[];
   isFeedLoading: boolean;
@@ -87,9 +88,11 @@ export function AuthorHome({ address }: AuthorHomeProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 p-4 m-2 rounded-lg bg-blue-yellow sm:grid-cols-12">
-        <h3 className="px-6 py-2 rounded-xl bg-brand-dark">
-          {formatter.minifyAddress(address)}{" "}
-        </h3>
+        <ToolTip content={address}>
+          <h3 className="px-6 py-2 rounded-xl bg-brand-dark">
+            {formatter.minifyAddress(address)}{" "}
+          </h3>
+        </ToolTip>
       </div>
       <Tab.Group>
         <Tab.List className="flex p-1 space-x-1 rounded-xl ">

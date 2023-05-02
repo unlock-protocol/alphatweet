@@ -8,6 +8,7 @@ import { queryClient } from "@/config/reactQuery";
 import { DefaultSeo } from "next-seo";
 import { DEFAULT_SEO } from "@/config/seo";
 import { Toaster } from "react-hot-toast";
+import * as RadixToolTip from "@radix-ui/react-tooltip";
 
 export const Provider = ({ children }: { children?: ReactNode }) => {
   return (
@@ -35,7 +36,9 @@ export const Provider = ({ children }: { children?: ReactNode }) => {
             }}
           >
             <DefaultSeo {...DEFAULT_SEO} />
-            {children}
+            <RadixToolTip.Provider delayDuration={100}>
+              {children}
+            </RadixToolTip.Provider>
             <Toaster
               toastOptions={{
                 className: "bg-brand-blue-gray text-white",

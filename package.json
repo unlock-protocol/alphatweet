@@ -14,6 +14,7 @@
     "@lexical/react": "^0.9.1",
     "@newhighsco/next-plugin-svgr": "^3.0.87",
     "@radix-ui/react-scroll-area": "^1.0.3",
+    "@radix-ui/react-tooltip": "^1.0.5",
     "@supabase/supabase-js": "^2.20.0",
     "@tanstack/react-query": "^4.29.3",
     "@trpc/client": "^10.19.1",

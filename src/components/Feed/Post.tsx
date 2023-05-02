@@ -4,7 +4,6 @@ import { formatter } from "@/utils/formatters";
 import { useLock } from "@/hooks/useLock";
 import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg";
 import { BiDollarCircle as EarnedIcon } from "react-icons/bi";
-import { ethers } from "ethers";
 interface Props {
   id: string;
   previewContent: string;
@@ -64,12 +63,7 @@ export function Post({
           <EarnedIcon size={28} />
           {lock && (
             <span>
-              Earned:{" "}
-              {ethers.utils.formatUnits(
-                ethers.BigNumber.from(lock.price).mul(lock.sold),
-                lock.decimals
-              )}{" "}
-              {lock.tokenSymbol}
+              Earned: {lock?.formatted?.earned} {lock.tokenSymbol}
             </span>
           )}
         </div>
