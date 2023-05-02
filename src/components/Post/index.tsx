@@ -38,11 +38,7 @@ export function Post({ id, referrer }: Props) {
 
   const { connector, address } = useAccount();
 
-  const {
-    isLoading: isKeyLoading,
-    data: key,
-    refetch: refetchKey,
-  } = useQuery(
+  const { isLoading: isKeyLoading, data: key, refetch: refetchKey } = useQuery(
     ["subgraph", "key", post?.lock_network, post?.lock_address, address],
     async () => {
       const key = subgraph.key(
@@ -86,7 +82,7 @@ export function Post({ id, referrer }: Props) {
     const config = getCheckoutConfig({
       address: post.lock_address,
       network: post.lock_network,
-      referrer,
+      referrer: referrer || post.author_address,
     });
     const paywall = new Paywall(config, networks, provider);
     await paywall.loadCheckoutModal(config, AppConfig.unlockAppUrl);
