@@ -18,7 +18,7 @@ const PrivacyPage: NextPage = () => {
       <p>
         This Privacy Policy describes the types of information we may collect
         from you or that you may provide when you use, access or visit our
-        website and domain name (unlock-protocol.com, the “Site”) and/or our
+        website and domain name (alphatweet.xyz, the “Site”) and/or our
         Services. Our “Services” mean, collectively, the Site and any services,
         content, applications, features, including any protocols and components
         thereof, which may exist now or in the future and which Unlock may offer
