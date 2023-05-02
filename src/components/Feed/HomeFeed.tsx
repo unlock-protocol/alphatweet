@@ -14,7 +14,7 @@ export function HomeFeed() {
           }).map((_, index) => <PostPlaceholder key={index} />)}
         {!isFeedLoading &&
           (feed || []).map((item) => (
-            <NextLink key={item.id} href={`/posts/${item.id}`} shallow={true}>
+            <NextLink key={item.id} href={`/posts/${item.id}`}>
               <Post
                 id={item.id}
                 previewContent={item.preview_content}
