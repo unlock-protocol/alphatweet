@@ -28,7 +28,7 @@ export async function getLock({ address, network }: Options) {
     return {};
   }
 
-  const provider = new ethers.providers.JsonRpcProvider(
+  const provider = new ethers.providers.StaticJsonRpcProvider(
     networks[network].provider
   );
   const referralFeePromise = UnlockWeb3Client.referrerFees({
@@ -48,6 +48,13 @@ export async function getLock({ address, network }: Options) {
       : [18, networks[network].nativeCurrency.symbol, referralFeePromise]
   );
 
+  const referralPrice =
+    response.price && referral
+      ? ethers.BigNumber.from(response.price || 0)
+          .mul(Math.round((referral || 0) / 100))
+          .div(100)
+      : ethers.BigNumber.from(0);
+
   return {
     decimals,
     tokenSymbol,
@@ -64,18 +71,14 @@ export async function getLock({ address, network }: Options) {
     managers: response.lockManagers?.map((item) => item.toLowerCase().trim()),
     formatted: {
       price: ethers.utils.formatUnits(response.price, decimals),
-      referral: Math.round((referral || 0) / 100),
-      referralFee: ethers.utils.formatUnits(
-        ethers.BigNumber.from(response.price)
-          .mul(Math.round((referral || 0) / 100))
-          .div(100),
+      earned: ethers.utils.formatUnits(
+        ethers.BigNumber.from(response.price || 0).mul(response.totalKeys || 0),
         decimals
       ),
+      referral: Math.round((referral || 0) / 100),
+      referralFee: ethers.utils.formatUnits(referralPrice, decimals),
       totalReferralFee: ethers.utils.formatUnits(
-        ethers.BigNumber.from(response.price)
-          .mul(Math.round((referral || 0) / 100))
-          .div(100)
-          .mul(response.totalKeys || 0),
+        referralPrice.mul(response.totalKeys),
         decimals
       ),
       quantity:

@@ -18,6 +18,7 @@ export const useLock = ({ address, network }: Partial<Options>) => {
           address,
           network,
         });
+
         return lock;
       } catch (error) {
         console.error(error);
