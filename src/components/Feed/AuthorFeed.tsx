@@ -1,11 +1,9 @@
 import { trpc } from "@/config/trpc";
 import { Post, PostPlaceholder } from "./Post";
 import NextLink from "next/link";
-import { formatter } from "@/utils/formatters";
 import { Tab } from "@headlessui/react";
 import { ReactComponent as CherryRedIcon } from "@/icons/cherry-icon-red.svg";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import ToolTip from "../Tooltip";
 interface Props {
   feedItems?: any[];
   isFeedLoading: boolean;
@@ -14,7 +12,7 @@ interface Props {
 export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
   return (
     <ScrollArea.Root className="w-full h-full overflow-hidden rounded">
-      <ScrollArea.Viewport className="w-full rounded max-h-96">
+      <ScrollArea.Viewport className="w-full rounded max-h-[500px]">
         <div className="grid gap-6 pr-3">
           {isFeedLoading &&
             Array.from({
@@ -87,58 +85,48 @@ export function AuthorHome({ address }: AuthorHomeProps) {
   const authorPurchasedFeedItems = authorPurchaseFeed || [];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4 p-4 m-2 rounded-lg bg-blue-yellow sm:grid-cols-12">
-        <ToolTip content={address}>
-          <h3 className="px-6 py-2 rounded-xl bg-brand-dark">
-            {formatter.minifyAddress(address)}{" "}
-          </h3>
-        </ToolTip>
-      </div>
-      <Tab.Group>
-        <Tab.List className="flex p-1 space-x-1 rounded-xl ">
-          <Tab
-            className={({ selected }) =>
-              `w-full py-2.5 font-medium  leading-5 border-b ${
-                selected
-                  ? " text-brand-pale-blue border-brand-pale-blue"
-                  : "text-white border-transparent"
-              }`
-            }
-          >
-            Unlocked{" "}
-            {!isAuthorPurchasingFeedLoading &&
-              `(${authorPurchasedFeedItems.length})`}
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              `w-full py-2.5 font-medium  leading-5 border-b ${
-                selected
-                  ? " text-brand-pale-blue border-brand-pale-blue"
-                  : "text-white border-transparent"
-              }`
-            }
-          >
-            Created{" "}
-            {!isAuthorCreatedFeedLoading &&
-              `(${authorCreatedFeedItems.length})`}
-          </Tab>
-        </Tab.List>
-        <Tab.Panels className="mt-6">
-          <Tab.Panel>
-            <AuthorFeed
-              feedItems={authorPurchasedFeedItems}
-              isFeedLoading={isAuthorPurchasingFeedLoading}
-            />
-          </Tab.Panel>
-          <Tab.Panel>
-            <AuthorFeed
-              feedItems={authorCreatedFeedItems}
-              isFeedLoading={isAuthorCreatedFeedLoading}
-            />
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
-    </div>
+    <Tab.Group>
+      <Tab.List className="flex p-1 space-x-1 rounded-xl ">
+        <Tab
+          className={({ selected }) =>
+            `w-full py-2.5 font-medium  leading-5 border-b ${
+              selected
+                ? " text-brand-pale-blue border-brand-pale-blue"
+                : "text-white border-transparent"
+            }`
+          }
+        >
+          Unlocked{" "}
+          {!isAuthorPurchasingFeedLoading &&
+            `(${authorPurchasedFeedItems.length})`}
+        </Tab>
+        <Tab
+          className={({ selected }) =>
+            `w-full py-2.5 font-medium  leading-5 border-b ${
+              selected
+                ? " text-brand-pale-blue border-brand-pale-blue"
+                : "text-white border-transparent"
+            }`
+          }
+        >
+          Created{" "}
+          {!isAuthorCreatedFeedLoading && `(${authorCreatedFeedItems.length})`}
+        </Tab>
+      </Tab.List>
+      <Tab.Panels className="mt-6">
+        <Tab.Panel>
+          <AuthorFeed
+            feedItems={authorPurchasedFeedItems}
+            isFeedLoading={isAuthorPurchasingFeedLoading}
+          />
+        </Tab.Panel>
+        <Tab.Panel>
+          <AuthorFeed
+            feedItems={authorCreatedFeedItems}
+            isFeedLoading={isAuthorCreatedFeedLoading}
+          />
+        </Tab.Panel>
+      </Tab.Panels>
+    </Tab.Group>
   );
 }
