@@ -19,9 +19,16 @@ interface Props {
 
 export function Post({ id, referrer }: Props) {
   const { isSignedIn } = useSIWE();
-  const [isCopied, copy] = useClipboard(formatter.AbsoluteURL(`/posts/${id}`), {
-    successDuration: 1000,
-  });
+  const { connector, address } = useAccount();
+  const ref = referrer || address;
+
+  const [isCopied, copy] = useClipboard(
+    formatter.AbsoluteURL(`/posts/${id}?referrer=${address}`),
+    {
+      successDuration: 1000,
+    }
+  );
+
   const {
     data: post,
     isLoading: isPostLoading,
@@ -35,8 +42,6 @@ export function Post({ id, referrer }: Props) {
     address: post?.lock_address,
     network: post?.lock_network,
   });
-
-  const { connector, address } = useAccount();
 
   const {
     isLoading: isKeyLoading,
@@ -127,11 +132,11 @@ export function Post({ id, referrer }: Props) {
                   {formatter.minifyAddress(post!.author_address)}
                 </div>
               </div>
-              {referrer && (
+              {ref && (
                 <div className="flex-col hidden gap-1 p-4 md:flex">
                   <div className="text-sm text-gray-400"> Referred By</div>
                   <div className="font-bold rounded text-brand-blue">
-                    {formatter.minifyAddress(referrer)}
+                    {formatter.minifyAddress(ref)}
                   </div>
                 </div>
               )}
