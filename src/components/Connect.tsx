@@ -5,6 +5,9 @@ import { ConnectKitButton, useSIWE } from "connectkit";
 import { useAccount } from "wagmi";
 import { ReactComponent as WalletIcon } from "@/icons/wallet.svg";
 import { ReactNode } from "react";
+import { Button } from "./Button";
+import { useSigned } from "@/hooks/useSigned";
+import NextLink from "next/link";
 
 interface ConnectedProps {
   children?: ReactNode;
@@ -110,6 +113,38 @@ export function NotConnected() {
       <div className="grid gap-4 justify-items-center">
         <ConnectButton />
       </div>
+    </div>
+  );
+}
+
+interface Props {
+  address: string;
+}
+
+export function ProfileShell({ address }: Props) {
+  const signedIn = useSigned();
+  return (
+    <div
+      className="grid w-full divide-y divide-brand-dark rounded-xl bg-brand-pale-blue text-brand-dark"
+      style={{
+        boxShadow: "4px 4px 40px -2px rgba(91, 173, 233, 1)",
+      }}
+    >
+      <div className="flex items-center p-6">
+        <div className="flex flex-col">
+          <div> Author&apos;s Wallet</div>
+          <p className="text-base font-bold">
+            {formatter.minifyAddress(address!)}
+          </p>
+        </div>
+      </div>
+      {signedIn && (
+        <div className="p-6">
+          <NextLink href="/profile">
+            <Button color="outline"> Go to my profile </Button>
+          </NextLink>
+        </div>
+      )}
     </div>
   );
 }
