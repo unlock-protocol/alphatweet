@@ -53,6 +53,7 @@ export const useReferralFee = ({ address, network }: Options) => {
         price,
         formatted: {
           price: ethers.utils.formatUnits(price, decimals),
+          referral: Math.round((referral || 0) / 100),
         },
       };
     },

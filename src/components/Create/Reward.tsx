@@ -31,7 +31,7 @@ export function Reward() {
 
   useEffect(() => {
     if (!isLockLoading && lock) {
-      setReferralFee(lock.referral || 0);
+      setReferralFee(lock.formatted.referral || 0);
     }
   }, [lock, isLockLoading]);
 
