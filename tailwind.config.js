@@ -56,6 +56,7 @@ module.exports = {
           "blue-gray": "#1C1F21",
         },
         ...defaultColors,
+        gray: defaultColors.neutral,
       },
     },
   },

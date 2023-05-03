@@ -16,6 +16,7 @@ export function HomeFeed() {
           (feed || []).map((item) => (
             <NextLink key={item.id} href={`/posts/${item.id}`}>
               <Post
+                hoverable
                 id={item.id}
                 previewContent={item.preview_content}
                 author={item.author_address}

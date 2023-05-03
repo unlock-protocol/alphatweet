@@ -15,7 +15,7 @@ export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
   return (
     <ScrollArea.Root className="w-full h-full overflow-hidden rounded">
       <ScrollArea.Viewport className="w-full rounded max-h-96">
-        <div className="grid gap-6">
+        <div className="grid gap-6 pr-3">
           {isFeedLoading &&
             Array.from({
               length: 5,
@@ -24,6 +24,7 @@ export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
             feedItems?.map((item) => (
               <NextLink key={item.id} href={`/posts/${item.id}`}>
                 <Post
+                  hoverable
                   id={item.id}
                   previewContent={item.preview_content}
                   author={item.author_address}
