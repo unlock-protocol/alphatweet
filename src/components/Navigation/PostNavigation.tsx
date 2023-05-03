@@ -12,7 +12,7 @@ export function PostNavigation() {
           <LogoIcon />
         </NextLink>
         <div>
-          {signed && <Button icon={<PlusIcon />}>Create content</Button>}
+          {signed && <Button icon={<PlusIcon />}>Create Alpha</Button>}
         </div>
       </div>
     </div>
