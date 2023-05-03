@@ -11,6 +11,7 @@ import { useLock } from "@/hooks/useLock";
 import { AppConfig } from "@/config/app";
 import useClipboard from "react-use-clipboard";
 import { subgraph } from "@/config/subgraph";
+import { useSigned } from "@/hooks/useSigned";
 
 interface Props {
   id: string;
@@ -96,12 +97,12 @@ export function Post({ id, referrer }: Props) {
     const paywall = new Paywall(config, networks, provider);
     await paywall.loadCheckoutModal(config, AppConfig.unlockAppUrl);
   }, [post, connector, referrer]);
-
+  const isSigned = useSigned();
   const keychainURL = new URL("/keychain", AppConfig.unlockAppUrl).toString();
 
   const isLoading = isPostLoading || isLockLoading;
   return (
-    <div className="grid w-full h-full border border-brand-pale-blue rounded-xl">
+    <div className="grid w-full border border-brand-pale-blue rounded-xl">
       <div className="w-full h-full">
         {isLoading && (
           <div className="grid gap-6 p-6">
@@ -155,7 +156,7 @@ export function Post({ id, referrer }: Props) {
                 </div>
               )}
             </div>
-            <Markdown className="flex-1 w-full p-4 overflow-auto prose prose-invert">
+            <Markdown className="p-4 overflow-auto prose max-w-fit prose-invert">
               {post!.content}
             </Markdown>
 
@@ -182,7 +183,7 @@ export function Post({ id, referrer }: Props) {
                         }}
                         className="flex items-center px-4 py-2 text-sm font-bold border rounded-full border-brand-dark text-brand-dark"
                       >
-                        {!isConnected && !isSignedIn
+                        {!isSigned
                           ? "Connect to Access"
                           : lock?.price > 0
                           ? "Buy Access"

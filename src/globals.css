@@ -5,3 +5,142 @@
 body {
   @apply bg-brand-dark text-gray-50;
 }
+
+.prose {
+  @apply text-gray-300;
+}
+
+.prose blockquote {
+  @apply font-normal text-gray-400 border-l-4 border-brand-blue-gray;
+}
+
+.prose figure {
+  @apply md:-mx-6;
+}
+
+.prose img {
+  @apply w-full rounded-md;
+}
+
+.prose a {
+  @apply font-normal no-underline break-words text-brand-blue hover:underline;
+}
+
+.prose a code {
+  @apply text-brand-blue;
+}
+
+.prose table {
+  @apply my-2 border border-gray-800 rounded-md text-gray-50;
+}
+
+.prose thead {
+  @apply text-gray-200;
+}
+
+.prose thead th {
+  @apply p-2;
+  padding-left: 1rem !important;
+}
+
+.prose thead th,
+.prose tbody th,
+.prose tbody td {
+  @apply p-2 border-r border-gray-800;
+  padding-left: 1rem !important;
+}
+
+.prose tbody tr {
+  @apply border-b border-gray-800;
+}
+
+.prose thead tr {
+  @apply border-b-2 border-gray-800;
+}
+
+.prose tbody tr:nth-child(2n) {
+  @apply bg-brand-blue-gray;
+}
+
+.prose b,
+.prose strong {
+  @apply font-bold text-gray-300;
+}
+
+.prose hr {
+  @apply border-gray-800;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply font-sans font-bold text-gray-100;
+  scroll-margin-top: 4rem;
+}
+
+.prose h1 a,
+.prose h2 a,
+.prose h3 a,
+.prose h4 a,
+.prose h5 a,
+.prose h6 a {
+  @apply font-sans font-bold text-gray-100 no-underline;
+}
+
+.prose h5 {
+  @apply mt-12 -mb-3 text-xl;
+}
+
+.prose pre {
+  @apply px-8 py-6 space-y-4 text-sm text-gray-200 bg-gray-400 border-gray-800 rounded-xl bg-opacity-5;
+}
+
+.prose p {
+  @apply break-words;
+  word-break: break-word;
+}
+
+.prose.comment p:first-of-type {
+  margin-top: 0 !important;
+}
+
+.prose.comment p + p {
+  margin-top: 0;
+}
+
+.prose.comment pre {
+  @apply my-3;
+}
+
+.prose.comment a {
+  @apply break-all;
+}
+
+.prose p + p {
+  margin-top: 0;
+}
+
+.prose code {
+  @apply rounded-xl  px-1 py-0.5  border-gray-800 bg-gray-900 text-gray-200;
+}
+
+.prose code,
+.prose pre {
+  @apply text-sm font-medium whitespace-pre-wrap;
+  word-break: break-word;
+}
+
+.prose pre > code {
+  @apply text-gray-200 bg-brand-blue-gray;
+}
+
+.prose pre {
+  @apply text-gray-100 bg-brand-blue-gray;
+}
+
+.prose sup {
+  @apply text-sm text-gray-400;
+}
