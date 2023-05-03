@@ -8,7 +8,7 @@ import {
 import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg";
 
 export const BaseButton = classed.button(
-  "rounded-full inline-flex w-full justify-center box-border px-4 py-2 cursor-pointer font-bold items-center gap-2 disabled:bg-opacity-75  disabled:cursor-not-allowed  transition ease-in-out duration-300 hover:bg-opacity-75 disabled:hover:bg-opacity-50",
+  "rounded-full inline-flex w-full justify-center box-border px-4 py-2 cursor-pointer font-bold items-center gap-2 disabled:bg-opacity-75  disabled:cursor-not-allowed  transition ease-in-out duration-300 hover:bg-opacity-75 disabled:hover:bg-opacity-75",
   {
     variants: {
       color: {
