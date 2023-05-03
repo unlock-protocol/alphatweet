@@ -38,7 +38,11 @@ export function Post({ id, referrer }: Props) {
 
   const { connector, address } = useAccount();
 
-  const { isLoading: isKeyLoading, data: key, refetch: refetchKey } = useQuery(
+  const {
+    isLoading: isKeyLoading,
+    data: key,
+    refetch: refetchKey,
+  } = useQuery(
     ["subgraph", "key", post?.lock_network, post?.lock_address, address],
     async () => {
       const key = subgraph.key(

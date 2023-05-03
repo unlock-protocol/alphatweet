@@ -23,7 +23,11 @@ export function ConnectLock() {
     formState: { errors, isSubmitting },
     handleSubmit,
     setValue,
-  } = useForm<ConnectLockProps>();
+  } = useForm<ConnectLockProps>({
+    defaultValues: {
+      network: 137,
+    },
+  });
   const [network, setNetwork] = useState(networks[137]);
 
   const onSubmit = useCallback(

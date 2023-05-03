@@ -11,14 +11,16 @@ import { Header } from "./Header";
 import { Layout } from "./Layout";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { onWalletInteractionError } from "@/utils/errors";
+import { useReferralFee } from "@/hooks/useReferral";
 
 export function Reward() {
   const { address, network } = useCreatePostState();
   const walletService = useWalletService();
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoading: isLockLoading, data: lock } = useLock({
-    address,
-    network,
+
+  const { isLoading: isLockLoading, data: lock } = useReferralFee({
+    address: address!,
+    network: network!,
   });
 
   const { chain } = useNetwork();
@@ -29,7 +31,7 @@ export function Reward() {
 
   useEffect(() => {
     if (!isLockLoading && lock) {
-      setReferralFee(lock.formatted?.referral || 0);
+      setReferralFee(lock.referral || 0);
     }
   }, [lock, isLockLoading]);
 
@@ -40,7 +42,7 @@ export function Reward() {
         subTitle="Set up the referral percentage so your readers can earn a share of the content price by sharing your content to their connections."
       />
       {isLockLoading && <Loading />}
-      {!isLockLoading && (
+      {!isLockLoading && lock && (
         <div className="grid gap-6 mt-12">
           <div className="flex items-center justify-between w-full">
             <div>
@@ -102,9 +104,8 @@ export function Reward() {
               <div>
                 {ethers.utils.formatUnits(
                   ethers.BigNumber.from(lock?.price || 0)
-                    .div(100)
                     .mul(referralFee)
-                    .toString(),
+                    .div(100),
                   lock?.decimals || 0
                 )}{" "}
                 {lock?.tokenSymbol || ""}
@@ -122,7 +123,7 @@ export function Reward() {
                   const wallet = await walletService.connect();
                   await wallet.setReferrerFee({
                     feeBasisPoint,
-                    lockAddress: lock!.address,
+                    lockAddress: address!,
                     address: ethers.constants.AddressZero,
                   });
                 }

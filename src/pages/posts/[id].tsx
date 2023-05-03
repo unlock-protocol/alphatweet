@@ -1,4 +1,3 @@
-import DefaultLayout from "@/components/Layouts/Default";
 import { supabaseAdminClient } from "@/config/supabase.server";
 import { formatter } from "@/utils/formatters";
 import { GetServerSideProps, NextPage } from "next";
@@ -53,14 +52,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
   const post = response.data;
-
-  const suceed = await supabaseAdminClient.rpc("upsert_post_view", {
-    post_id: post.id,
-  });
-
-  if (suceed.error) {
-    console.error(suceed.error);
-  }
 
   return {
     props: {
