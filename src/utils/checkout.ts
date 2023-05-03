@@ -9,7 +9,7 @@ interface Options {
 export const getCheckoutConfig = ({ address, network, referrer }: Options) => {
   return {
     icon: formatter.AbsoluteURL("/cherry.svg"),
-    title: "Alpha Tweet",
+    title: "AlphaTweet",
     locks: {
       [address]: {
         network,
