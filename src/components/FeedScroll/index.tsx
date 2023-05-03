@@ -14,7 +14,7 @@ export function FeedScroll({ children, size = "medium" }: Props) {
           size === "small" ? "h-96" : size === "medium" ? "h-[600px]" : ""
         }`}
       >
-        {children}
+        <div className="pr-3">{children}</div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         className="flex select-none touch-none p-0.5 bg-brand-dark transition-colors duration-[160ms] ease-out hover:bg-blackA8 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
