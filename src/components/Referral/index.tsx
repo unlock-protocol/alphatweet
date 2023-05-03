@@ -6,6 +6,7 @@ import { trpc } from "@/config/trpc";
 import { Loading } from "../Loading";
 import NextLink from "next/link";
 import { minifyAddress } from "@/utils/formatters";
+import ToolTip from "../Tooltip";
 
 export function Referral() {
   const { isLoading: isTopReferralFeedLoading, data: topReferrals } =
@@ -14,11 +15,11 @@ export function Referral() {
     <div className="grid gap-12 sm:grid-cols-12">
       <div className="grid gap-6 sm:col-span-8">
         <div className="space-y-6">
-          <div className="flex items-center justify-between gap-4 p-4 m-2 rounded-lg bg-cherry-shine sm:grid-cols-12">
+          <div className="flex items-center justify-center gap-4 p-4 m-2 rounded-lg sm:justify-between bg-cherry-shine sm:grid-cols-12">
             <h3 className="px-6 py-2 rounded-xl bg-brand-dark">
-              Referral Leaderboard
+              Top referrers leaderboard
             </h3>
-            <div>
+            <div className="hidden sm:block">
               <ReferralCherry />
             </div>
           </div>
@@ -36,7 +37,11 @@ export function Referral() {
                   >
                     <div className="flex items-center justify-between p-2 hover:bg-opacity-80 bg-brand-blue-gray rounded-xl">
                       <div>{minifyAddress(item.author_address)}</div>
-                      <div>{item.share_count} posts</div>
+                      <ToolTip
+                        content={`The number of referrals this author has made`}
+                      >
+                        <div>{item.share_count} referred</div>
+                      </ToolTip>
                     </div>
                   </NextLink>
                 ))}
