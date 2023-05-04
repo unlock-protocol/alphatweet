@@ -49,11 +49,7 @@ export function Post({ id, referrer }: Props) {
     network: post?.lock_network,
   });
 
-  const {
-    isLoading: isKeyLoading,
-    data: key,
-    refetch: refetchKey,
-  } = useQuery(
+  const { isLoading: isKeyLoading, data: key, refetch: refetchKey } = useQuery(
     ["subgraph", "key", post?.lock_network, post?.lock_address, address],
     async () => {
       const key = subgraph.key(
@@ -149,7 +145,9 @@ export function Post({ id, referrer }: Props) {
               )}
               {key && !isKeyLoading && (
                 <div className="flex flex-col gap-1 p-4">
-                  <div className="text-sm text-gray-400"> Token </div>
+                  <div className="text-sm text-gray-400">
+                    Your Access Token{" "}
+                  </div>
 
                   <a
                     href={keychainURL}
@@ -157,7 +155,7 @@ export function Post({ id, referrer }: Props) {
                     rel="noopener noreferrer"
                     className="font-bold rounded text-brand-blue"
                   >
-                    {key.tokenId}
+                    #{key.tokenId}
                   </a>
                 </div>
               )}
