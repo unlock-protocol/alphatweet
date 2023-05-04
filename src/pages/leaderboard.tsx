@@ -1,5 +1,5 @@
 import DefaultLayout from "@/components/Layouts/Default";
-import { Referral } from "@/components/Referral";
+import { Leaderboard } from "@/components/Leaderboard";
 import { routes } from "@/config/routes";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -7,8 +7,8 @@ import { NextSeo } from "next-seo";
 const ReferralPage: NextPage = () => {
   return (
     <DefaultLayout>
-      <NextSeo {...routes.referral.seo} />
-      <Referral />
+      <NextSeo {...routes.leaderboard.seo} />
+      <Leaderboard />
     </DefaultLayout>
   );
 };

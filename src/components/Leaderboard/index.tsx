@@ -8,7 +8,7 @@ import NextLink from "next/link";
 import { minifyAddress } from "@/utils/formatters";
 import ToolTip from "../Tooltip";
 
-export function Referral() {
+export function Leaderboard() {
   const { isLoading: isTopReferralFeedLoading, data: topReferrals } =
     trpc.TopReferralFeed.useQuery();
   return (
