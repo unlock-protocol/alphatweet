@@ -3,17 +3,17 @@ import { AppConfig } from "./app";
 import { formatter } from "@/utils/formatters";
 
 export const DEFAULT_SEO: DefaultSeoProps = {
-  title: "AlphaTweet",
-  description: "AlphaTweet lets creators publish token gated content on Twitter and other social media platforms.",
+  title: "ALPHAtweet",
+  description: "ALPHAtweet lets creators publish token gated content on Twitter and other social media platforms.",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: AppConfig.siteUrl,
-    site_name: "AlphaTweet",
+    site_name: "ALPHAtweet",
     images: [
       {
         url: formatter.AbsoluteURL("/api/og/page"),
-        alt: "AlphaTweet",
+        alt: "ALPHAtweet",
       },
     ],
   },

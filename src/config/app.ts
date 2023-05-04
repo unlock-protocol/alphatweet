@@ -1,5 +1,5 @@
 export const AppConfig = {
-  name: "AlphaTweet",
+  name: "ALPHAtweet",
   production: process.env.NODE_ENV === "production",
   environment: process.env.NODE_ENV!,
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
