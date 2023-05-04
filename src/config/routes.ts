@@ -12,9 +12,8 @@ type Pages =
   | "about"
   | "profile"
   | "privacy"
-  | "referral"
-  | "create"
-  | "discover";
+  | "leaderboard"
+  | "create";
 
 export type Routes = Record<Pages, Route>;
 
@@ -47,11 +46,11 @@ export const routes: Routes = {
       }),
     }),
   },
-  referral: {
-    label: "Referral",
+  leaderboard: {
+    label: "Leaderboard",
     seo: customizeSEO({
-      title: "Referral",
-      description: "Referral",
+      title: "Referral Leaderboard",
+      description: "Leaderboard of top referrers",
       path: "/referral",
       imagePath: formatter.ogPageURL({
         title: "Referral",
@@ -71,18 +70,7 @@ export const routes: Routes = {
       }),
     }),
   },
-  discover: {
-    label: "Discover",
-    seo: customizeSEO({
-      title: "Discover",
-      description: "Discover",
-      path: "/discover",
-      imagePath: formatter.ogPageURL({
-        title: "Discover",
-        description: "Discover",
-      }),
-    }),
-  },
+
   privacy: {
     label: "Privacy",
     seo: customizeSEO({

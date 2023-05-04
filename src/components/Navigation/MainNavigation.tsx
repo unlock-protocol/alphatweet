@@ -13,8 +13,8 @@ const NAVIGATIONAL_ITEMS = [
     IconComponent: HomeIcon,
   },
   {
-    name: "Referral",
-    href: "/referral",
+    name: "Leaderboard",
+    href: "/leaderboard",
     IconComponent: ReferralIcon,
   },
   {
