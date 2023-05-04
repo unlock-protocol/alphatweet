@@ -31,7 +31,7 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
         }}
       />
       {!id && <div> No post found </div>}
-      {id && <Post id={id} referrer={referrer} />}
+      {id && <Post id={id} referrer={referrer || author_address} />}
     </PostLayout>
   );
 };

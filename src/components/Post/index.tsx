@@ -22,7 +22,6 @@ export function Post({ id, referrer }: Props) {
   const { isSignedIn } = useSIWE();
   const { connector, address } = useAccount();
   const signed = useSigned();
-  const ref = referrer || address;
 
   const [isCopied, copy] = useClipboard(
     formatter.AbsoluteURL(`/posts/${id}?referrer=${address}`),
@@ -49,7 +48,11 @@ export function Post({ id, referrer }: Props) {
     network: post?.lock_network,
   });
 
-  const { isLoading: isKeyLoading, data: key, refetch: refetchKey } = useQuery(
+  const {
+    isLoading: isKeyLoading,
+    data: key,
+    refetch: refetchKey,
+  } = useQuery(
     ["subgraph", "key", post?.lock_network, post?.lock_address, address],
     async () => {
       const key = subgraph.key(
@@ -135,11 +138,11 @@ export function Post({ id, referrer }: Props) {
                   {formatter.minifyAddress(post!.author_address)}
                 </div>
               </div>
-              {ref && (
+              {referrer && referrer !== post?.author_address && (
                 <div className="flex-col hidden gap-1 p-4 md:flex">
                   <div className="text-sm text-gray-400"> Referred By</div>
                   <div className="font-bold rounded text-brand-blue">
-                    {formatter.minifyAddress(ref)}
+                    {formatter.minifyAddress(referrer)}
                   </div>
                 </div>
               )}
