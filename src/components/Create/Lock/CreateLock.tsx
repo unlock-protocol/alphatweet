@@ -30,7 +30,7 @@ export function CreateLock() {
     setValue,
   } = useForm<LockCreateFormData>({
     defaultValues: {
-      name: "AlphaTweet Lock",
+      name: "My Alpha membership",
       duration: 30,
       price: 100,
     },
