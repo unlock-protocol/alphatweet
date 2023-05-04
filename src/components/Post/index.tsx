@@ -21,6 +21,7 @@ interface Props {
 export function Post({ id, referrer }: Props) {
   const { isSignedIn } = useSIWE();
   const { connector, address } = useAccount();
+  const signed = useSigned();
   const ref = referrer || address;
 
   const [isCopied, copy] = useClipboard(
@@ -36,6 +37,10 @@ export function Post({ id, referrer }: Props) {
     refetch: refetchPost,
   } = trpc.fetchPost.useQuery(id!, {
     enabled: !!id,
+    refetchInterval(data, query) {
+      // if the user has access, we can refetch less often
+      return !data?.hasAccess && signed ? 1000 * 30 : 1000 * 60 * 5;
+    },
   });
 
   const { mutateAsync: addShare } = trpc.addShare.useMutation();
@@ -62,7 +67,7 @@ export function Post({ id, referrer }: Props) {
           network: post!.lock_network,
         }
       );
-      return key ?? null;
+      return key || {};
     },
     {
       enabled: Boolean(
@@ -76,9 +81,10 @@ export function Post({ id, referrer }: Props) {
       await refetchPost();
       await refetchKey();
     };
-    window.addEventListener("unlockProtocol.status", handler);
+    const event = "unlockProtocol.closeModal";
+    window.addEventListener(event, handler);
     return () => {
-      window.removeEventListener("unlockProtocol.status", handler);
+      window.removeEventListener(event, handler);
     };
   }, [refetchPost, refetchKey]);
 
