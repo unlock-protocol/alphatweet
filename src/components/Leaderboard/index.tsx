@@ -28,14 +28,15 @@ export function Leaderboard() {
             <FeedEmptyPlaceholder text="No referrals yet" />
           )}
           {!isTopReferralFeedLoading && topReferrals.length > 0 && (
-            <FeedScroll size="small">
+            <div>
+ <FeedScroll size="medium">
               <div className="grid gap-4">
                 {topReferrals.map((item: any) => (
                   <NextLink
                     key={item.author_address}
                     href={`/profile/${item.author_address}`}
                   >
-                    <div className="flex items-center justify-between p-2 hover:bg-opacity-80 bg-brand-blue-gray rounded-xl">
+                    <div className="flex items-center justify-between p-2 hover:bg-gray-800 bg-brand-blue-gray rounded-xl">
                       <div>{minifyAddress(item.author_address)}</div>
                       <ToolTip
                         content={`The number of referrals this author has made`}
@@ -47,10 +48,12 @@ export function Leaderboard() {
                 ))}
               </div>
             </FeedScroll>
+            </div>
+           
           )}
         </div>
       </div>
-      <div className="w-full sm:col-span-4">
+      <div className="order-first w-full sm:col-span-4 sm:order-last">
         <Connect />
       </div>
     </div>

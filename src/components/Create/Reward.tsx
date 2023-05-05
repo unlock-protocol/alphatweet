@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 import { Button } from "../Button";
 import { useWalletService } from "@/hooks/useWalletService";
 import { Header } from "./Header";
-import { Layout } from "./Layout";
+import { SideLayout } from "../Layouts/SideLayout";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { onWalletInteractionError } from "@/utils/errors";
 import { useReferralFee } from "@/hooks/useReferral";
@@ -36,7 +36,7 @@ export function Reward() {
   }, [lock, isLockLoading]);
 
   return (
-    <Layout>
+    <SideLayout>
       <Header
         title="Reward your followers"
         subTitle="Set up the referral percentage so your readers can earn a share of the content price by sharing your content to their connections."
@@ -152,6 +152,6 @@ export function Reward() {
           )}
         </div>
       )}
-    </Layout>
+    </SideLayout>
   );
 }

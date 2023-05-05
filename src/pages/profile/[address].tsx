@@ -23,7 +23,7 @@ const ProfilePage: NextPage = () => {
             {!address && <div> No profile found </div>}
             {address && <AuthorFeed address={address} />}
           </div>
-          <div className="sm:col-span-4">
+          <div className="order-first sm:col-span-4 sm:order-last">
             {!isConnectedAddress && address && (
               <ProfileShell address={address!} />
             )}

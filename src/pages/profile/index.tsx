@@ -17,7 +17,7 @@ const ProfilePage: NextPage = () => {
           <div className="sm:col-span-8">
             <AuthorFeed address={address!} />
           </div>
-          <div className="sm:col-span-4">
+          <div className="order-first sm:order-last sm:col-span-4">
             <Connect />
           </div>
         </div>

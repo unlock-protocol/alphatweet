@@ -9,7 +9,7 @@ export function Home() {
       <div className="grid gap-6 sm:col-span-8">
         <HomeFeed />
       </div>
-      <div className="w-full sm:col-span-4">
+      <div className="order-first w-full sm:order-last sm:col-span-4">
         <Connect>
           <div className="p-6 border-t">
             <NextLink href="/create">

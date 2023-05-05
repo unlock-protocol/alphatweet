@@ -1,11 +1,11 @@
 import { Header } from "../Header";
-import { Layout } from "../Layout";
+import { SideLayout } from "../../Layouts/SideLayout";
 import { ConnectLock } from "./ConnectLock";
 import { CreateLock } from "./CreateLock";
 
 export function Lock() {
   return (
-    <Layout>
+    <SideLayout>
       <div className="space-y-6">
         <Header
           title="Gate Settings"
@@ -14,6 +14,6 @@ export function Lock() {
         <CreateLock />
         <ConnectLock />
       </div>
-    </Layout>
+    </SideLayout>
   );
 }

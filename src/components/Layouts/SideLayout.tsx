@@ -6,16 +6,14 @@ interface Props {
   children: ReactNode;
 }
 
-export function Layout({ children }: Props) {
+export function SideLayout({ children }: Props) {
   return (
-    <div>
       <div className="grid gap-12 sm:grid-cols-12">
         <div className="grid sm:col-span-8">{children}</div>
-        <div className="relative flex flex-col w-full sm:col-span-4">
+        <div className="relative flex flex-col order-first w-full sm:col-span-4 sm:order-last">
           <Connect />
-          <ConnectedBottomBanner />
+          <ConnectedBottomBanner className="hidden sm:block" />
         </div>
       </div>
-    </div>
   );
 }
