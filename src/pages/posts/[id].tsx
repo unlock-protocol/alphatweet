@@ -12,7 +12,7 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
   const referrer = router.query?.referrer?.toString();
 
   return (
-    <PostLayout>
+    <div>
       <NextSeo
         title={`Alpha shared by ${formatter.minifyAddress(author_address)}`}
         description={preview_content}
@@ -30,9 +30,13 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
           ],
         }}
       />
-      {!id && <div> No post found </div>}
-      {id && <Post id={id} referrer={referrer} />}
-    </PostLayout>
+      {!id && (
+        <PostLayout showCreateButton>
+          <div> No post found. </div>
+        </PostLayout>
+      )}
+      {id && <Post id={id} referrer={referrer || author_address} />}
+    </div>
   );
 };
 
