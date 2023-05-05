@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import { ReactComponent as CreateIcon } from "@/icons/create.svg";
 import { ReactComponent as HomeIcon } from "@/icons/home.svg";
-import { ReactComponent as ReferralIcon } from "@/icons/referral.svg";
+import { ReactComponent as LeaderboardIcon } from "@/icons/referral.svg";
 import { ReactComponent as ProfileIcon } from "@/icons/profile.svg";
 import { ReactComponent as LogoIcon } from "@/icons/logo.svg";
 import { useRouter } from "next/router";
@@ -15,7 +15,7 @@ const NAVIGATIONAL_ITEMS = [
   {
     name: "Leaderboard",
     href: "/leaderboard",
-    IconComponent: ReferralIcon,
+    IconComponent: LeaderboardIcon,
   },
   {
     name: "Profile",
@@ -40,7 +40,7 @@ export function Navigation() {
             <LogoIcon />
           </NextLink>
         </div>
-        <div className="grid w-full max-w-md grid-cols-4 gap-6">
+        <div className="grid w-full max-w-md grid-flow-col gap-6">
           {NAVIGATIONAL_ITEMS.map((item) => {
             const routerPath = router.pathname
               .split("/")?.[1]

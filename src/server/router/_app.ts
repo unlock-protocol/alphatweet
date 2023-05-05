@@ -281,12 +281,17 @@ export const appRouter = router({
     if (response.error) {
       throw new Error(response.error.message);
     }
-    return response.data?.map((item: any) => {
-      return {
-        author_address: item.author_address,
-        share_count: item.share_count,
-      } as const;
-    });
+    // sort by share count
+    return response.data
+      ?.map((item: any) => {
+        return {
+          author_address: item.author_address,
+          share_count: item.share_count,
+        } as const;
+      })
+      .sort((a: any, b: any) => {
+        return b.share_count - a.share_count;
+      });
   }),
 });
 

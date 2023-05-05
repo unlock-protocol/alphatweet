@@ -53,10 +53,10 @@ export function Post({
         <div className="p-2">{previewContent}</div>
       </div>
 
-      <div className="grid w-full gap-2 p-2 border-t border-gray-700 sm:grid-cols-3">
+      <div className="grid w-full gap-6 p-2 border-t border-gray-700 sm:grid-cols-3">
         <ToolTip content="Price to unlock the content">
           <div className="flex items-center gap-2 text-gray-500">
-            <TagIcon />{" "}
+            <EarnedIcon size={28} />
             {lock && (
               <span>
                 {lock.price <= 0
@@ -76,7 +76,7 @@ export function Post({
 
         <ToolTip content="Total sales amount">
           <div className="flex items-center gap-2 text-gray-500">
-            <EarnedIcon size={28} />
+            <TagIcon />{" "}
             {lock && (
               <span>
                 {lock?.formatted?.earned} {lock.tokenSymbol}

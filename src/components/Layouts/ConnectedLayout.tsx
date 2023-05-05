@@ -12,7 +12,7 @@ export function ConnectedLayout({ children }: Props) {
   return (
     <DefaultLayout>
       <div className="grid items-center h-full justify-items-center md:grid-cols-12">
-        <div className="space-y-6  md:col-span-8">
+        <div className="space-y-6 md:col-span-8">
           <header className="space-y-4">
             <h1 className="text-xl font-bold md:text-5xl">
               Create your tweet & monetize it right at start.
