@@ -8,7 +8,8 @@ const PrivacyPage: NextPage = () => {
     <DefaultLayout>
       <NextSeo {...routes.privacy.seo} />
 
-      <p>Last modified: May 2nd, 2023</p>
+<main className="prose max-w-fit prose-invert">
+<p>Last modified: May 2nd, 2023</p>
       <h2>Introduction</h2>
       <p>
         Unlock, Inc. (“Unlock” or “We”) respect your privacy and are committed
@@ -404,6 +405,8 @@ const PrivacyPage: NextPage = () => {
         please send us a detailed message at hello@unlock-protocol.com. We will
         make every effort to resolve your concerns.
       </p>
+</main>
+    
     </DefaultLayout>
   );
 };
