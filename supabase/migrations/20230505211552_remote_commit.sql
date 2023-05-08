@@ -65,43 +65,6 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 
-SET default_tablespace = '';
-
-SET default_table_access_method = "heap";
-
---
--- Name: posts; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE "public"."posts" (
-    "id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
-    "content" "text",
-    "preview_content" "text",
-    "lock_address" "text" NOT NULL,
-    "lock_network" bigint NOT NULL,
-    "author_address" "text" NOT NULL,
-    "is_published" boolean DEFAULT true NOT NULL,
-    "updated_at" timestamp with time zone DEFAULT "now"(),
-    "created_at" timestamp with time zone DEFAULT "now"()
-);
-
-
-ALTER TABLE "public"."posts" OWNER TO "postgres";
-
---
--- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY "public"."posts"
-    ADD CONSTRAINT "posts_pkey" PRIMARY KEY ("id");
-
-
---
--- Name: posts; Type: ROW SECURITY; Schema: public; Owner: postgres
---
-
-ALTER TABLE "public"."posts" ENABLE ROW LEVEL SECURITY;
-
 --
 -- Name: SCHEMA "public"; Type: ACL; Schema: -; Owner: pg_database_owner
 --
@@ -725,15 +688,6 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 --
 
 -- GRANT ALL ON TABLE "pgsodium"."mask_columns" TO "pgsodium_keyholder";
-
-
---
--- Name: TABLE "posts"; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON TABLE "public"."posts" TO "anon";
-GRANT ALL ON TABLE "public"."posts" TO "authenticated";
-GRANT ALL ON TABLE "public"."posts" TO "service_role";
 
 
 --
