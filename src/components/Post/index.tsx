@@ -4,7 +4,7 @@ import { ConnectKitButton, useSIWE } from "connectkit";
 import Markdown from "react-markdown";
 import { Paywall } from "@unlock-protocol/paywall";
 import { useCallback, useEffect } from "react";
-import { useAccount, useQuery } from "wagmi";
+import { useAccount, useNetwork, useQuery, useSwitchNetwork } from "wagmi";
 import { getCheckoutConfig } from "@/utils/checkout";
 import { networks } from "@unlock-protocol/networks";
 import { useLock } from "@/hooks/useLock";
@@ -13,7 +13,9 @@ import useClipboard from "react-use-clipboard";
 import { useSigned } from "@/hooks/useSigned";
 import { useKey } from "@/hooks/useKey";
 import PostLayout from "../Layouts/PostLayout";
-
+import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg"
+import { toast } from "react-hot-toast";
+import { onWalletInteractionError } from "@/utils/errors";
 interface Props {
   id: string;
   referrer?: string;
@@ -23,6 +25,9 @@ export function Post({ referrer, id }: Props) {
   const { isSignedIn } = useSIWE();
   const { connector, address } = useAccount();
 
+  const { chain } = useNetwork();
+  const { switchNetworkAsync, isLoading: isSwitchingNetwork } =
+    useSwitchNetwork()
   const [isCopied, copy] = useClipboard(
     formatter.AbsoluteURL(`/posts/${id}?referrer=${address}`),
     {
@@ -91,7 +96,8 @@ export function Post({ referrer, id }: Props) {
   const keychainURL = new URL("/keychain", AppConfig.unlockAppUrl).toString();
 
   const isLoading = isPostLoading || isLockLoading;
-
+  const isNetworkMismatch = !isLoading && post?.lock_network !== chain?.id;
+  const isButtonLoading = isSwitchingNetwork || isLoading
   return (
     <PostLayout showCreateButton={!!post?.hasAccess}>
       <div className="grid w-full border border-brand-pale-blue rounded-xl">
@@ -169,19 +175,33 @@ export function Post({ referrer, id }: Props) {
                         <button
                           onClick={async (event) => {
                             event.preventDefault();
-                            if (isConnected && isSignedIn) {
-                              await openCheckout();
-                            } else {
-                              await show?.();
+                            try {
+                              if (isConnected && isSignedIn) {
+                                if(isNetworkMismatch) {
+                                  await switchNetworkAsync?.(post?.lock_network)
+                                } else {
+                                  await openCheckout();
+                                }
+                              } else {
+                                await show?.();
+                              }
+                            } catch(error) {
+                              onWalletInteractionError(error)
                             }
                           }}
-                          className="flex items-center justify-center px-4 py-2 text-sm font-bold text-center border rounded-full border-brand-dark text-brand-dark"
+                          disabled={isButtonLoading}
+                          className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-center border rounded-full disabled:cursor-not-allowed disabled:opacity-75 border-brand-dark text-brand-dark"
                         >
-                          {!isSigned
+                          <span>
+                          {!isSigned 
                             ? "Connect to Access"
-                            : lock?.price > 0
+                            : isNetworkMismatch ? "Switch Network to Access" : lock?.price > 0
                             ? "Buy Access"
                             : "Access Content"}
+                          </span>
+                          {
+                            isButtonLoading &&  <SpinnerIcon  className="animate-spin motion-reduce:invisible " />
+                          }
                         </button>
                       )}
                     </ConnectKitButton.Custom>
