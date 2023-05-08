@@ -2,7 +2,7 @@
 
 [ALPHAtweet](https://alphatweet.xyz/) is a open-source project for content sharing powered by [Unlock Protocol](https://unlock-protocol.com/).
 
-![](/public/home-2.png)
+![](/public/home.png)
 
 An “Alpha” is a piece of exclusive content that is being shared, where **both the creator and the sharer participate in the benefits of sharing when someone unlocks the Alpha**.
 
