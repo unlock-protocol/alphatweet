@@ -4,12 +4,16 @@ import NextLink from "next/link";
 import { Tab } from "@headlessui/react";
 import { ReactComponent as CherryRedIcon } from "@/icons/cherry-icon-red.svg";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { useRouter } from "next/router";
+import { useRouteChanging } from "@/hooks/useRouteChange";
 interface Props {
   feedItems?: any[];
   isFeedLoading: boolean;
 }
 
 export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
+  const routeChange = useRouteChanging()
+
   return (
     <ScrollArea.Root className="w-full h-full overflow-hidden rounded">
       <ScrollArea.Viewport className="w-full rounded max-h-[500px]">
@@ -19,10 +23,13 @@ export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
               length: 5,
             }).map((_, index) => <PostPlaceholder key={index} />)}
           {!isFeedLoading &&
-            feedItems?.map((item) => (
-              <NextLink key={item.id} href={`/posts/${item.id}`}>
+            feedItems?.map((item) => {
+              const href = `/posts/${item.id}`.toLowerCase()?.trim()
+              const isLoading = routeChange?.path === href
+              return (
+              <NextLink key={item.id} href={href}>
                 <Post
-                  hoverable
+                  loading={isLoading}
                   id={item.id}
                   previewContent={item.preview_content}
                   author={item.author_address}
@@ -30,7 +37,7 @@ export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
                   network={item.lock_network}
                 />
               </NextLink>
-            ))}
+            )})}
           {!isFeedLoading && Number(feedItems?.length) <= 0 && (
             <FeedEmptyPlaceholder text="You haven't created any alphas yet." />
           )}

@@ -43,11 +43,11 @@ export function Post({
     >
       <div className="p-2 space-y-2">
         <div className="flex items-center justify-between ">
-          <div className="inline-block px-4 py-2 bg-gray-900 text-brand-blue rounded-xl">
+          <div className="flex flex-wrap items-center gap-2 px-4 py-2 bg-gray-900 text-brand-blue rounded-xl">
             {lock?.name}
           </div>
           {loading && (
-            <SpinnerIcon className="animate-spin motion-reduce:invisible " />
+            <SpinnerIcon size={24} className="text-gray-500 animate-spin motion-reduce:invisible " />
           )}
         </div>
         <div className="p-2">{previewContent}</div>
