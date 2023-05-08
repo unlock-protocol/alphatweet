@@ -189,11 +189,11 @@ export function Post({ referrer, id }: Props) {
                 </div>
               )}
               {!isPostLoading && post?.hasAccess && (
-                <div className="grid p-4 m-2 rounded-lg gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
+                <div className="sticky grid p-4 m-2 rounded-lg bottom-2 gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
                   <div className="sm:col-span-8">
                     <h3 className="text-lg font-bold text-brand-blue-gray">
                       Sharing is rewarding!
-                    </h3>
+                    </h3>                  
                     <p className="text-gray-700">
                       You earn {lock?.formatted?.referralFee}{" "}
                       {lock?.tokenSymbol} for every person who unlocks this post
