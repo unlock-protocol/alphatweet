@@ -18,12 +18,12 @@ const ProfilePage: NextPage = () => {
     <ConnectedLayout>
       <DefaultLayout>
         <NextSeo {...routes.profile.seo} />
-        <div className="grid gap-12 sm:grid-cols-12 sm:px-0">
-          <div className="sm:col-span-8">
+        <div className="grid gap-12 md:grid-cols-12 md:px-0">
+          <div className="md:col-span-8">
             {!address && <div> No profile found </div>}
             {address && <AuthorFeed address={address} />}
           </div>
-          <div className="order-first sm:col-span-4 sm:order-last">
+          <div className="order-first md:col-span-4 md:order-last">
             {!isConnectedAddress && address && (
               <ProfileShell address={address!} />
             )}

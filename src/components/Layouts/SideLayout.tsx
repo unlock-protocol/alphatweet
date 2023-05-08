@@ -8,11 +8,11 @@ interface Props {
 
 export function SideLayout({ children }: Props) {
   return (
-      <div className="grid gap-12 sm:grid-cols-12">
-        <div className="grid sm:col-span-8">{children}</div>
-        <div className="relative flex flex-col order-first w-full sm:col-span-4 sm:order-last">
+      <div className="grid gap-12 md:grid-cols-12">
+        <div className="grid md:col-span-8">{children}</div>
+        <div className="relative flex flex-col order-first w-full md:col-span-4 md:order-last">
           <Connect />
-          <ConnectedBottomBanner className="hidden sm:block" />
+          <ConnectedBottomBanner className="hidden md:block" />
         </div>
       </div>
   );

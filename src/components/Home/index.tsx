@@ -5,11 +5,11 @@ import NextLink from "next/link";
 
 export function Home() {
   return (
-    <div className="grid gap-12 sm:grid-cols-12">
-      <div className="grid gap-6 sm:col-span-8">
+    <div className="grid gap-12 md:grid-cols-12">
+      <div className="grid gap-6 md:col-span-8">
         <HomeFeed />
       </div>
-      <div className="order-first w-full sm:order-last sm:col-span-4">
+      <div className="order-first w-full md:order-last md:col-span-4">
         <Connect>
           <div className="p-6 border-t">
             <NextLink href="/create">

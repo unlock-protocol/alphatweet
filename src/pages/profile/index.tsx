@@ -13,11 +13,11 @@ const ProfilePage: NextPage = () => {
     <ConnectedLayout>
       <DefaultLayout>
         <NextSeo {...routes.profile.seo} />
-        <div className="grid gap-12 sm:grid-cols-12 sm:px-0">
-          <div className="sm:col-span-8">
+        <div className="grid gap-12 md:grid-cols-12 md:px-0">
+          <div className="md:col-span-8">
             <AuthorFeed address={address!} />
           </div>
-          <div className="order-first sm:order-last sm:col-span-4">
+          <div className="order-first md:order-last md:col-span-4">
             <Connect />
           </div>
         </div>
