@@ -155,7 +155,7 @@ export function Post({ referrer, id }: Props) {
               </Markdown>
 
               {!isPostLoading && !post?.hasAccess && (
-                <div className="flex items-center justify-between gap-4 p-4 m-2 rounded-lg bg-blue-yellow sm:grid-cols-12">
+                <div className="flex flex-col items-center justify-between gap-4 p-4 m-2 rounded-lg sm:flex-row bg-blue-yellow sm:grid-cols-12">
                   <div className="sm:col-span-8">
                     <p className="font-medium text-brand-blue-gray">
                       {lock?.sold > 10
@@ -163,7 +163,7 @@ export function Post({ referrer, id }: Props) {
                         : `Be one of the first to unlock this post for ${lock?.formatted?.price} ${lock?.tokenSymbol}`}
                     </p>
                   </div>
-                  <div className="grid gap-1 sm:col-span-4">
+                  <div className="grid w-full gap-1 sm:w-auto sm:col-span-4">
                     <ConnectKitButton.Custom>
                       {({ show, isConnected }) => (
                         <button
@@ -175,7 +175,7 @@ export function Post({ referrer, id }: Props) {
                               await show?.();
                             }
                           }}
-                          className="flex items-center px-4 py-2 text-sm font-bold border rounded-full border-brand-dark text-brand-dark"
+                          className="flex items-center justify-center px-4 py-2 text-sm font-bold text-center border rounded-full border-brand-dark text-brand-dark"
                         >
                           {!isSigned
                             ? "Connect to Access"
@@ -189,11 +189,11 @@ export function Post({ referrer, id }: Props) {
                 </div>
               )}
               {!isPostLoading && post?.hasAccess && (
-                <div className="grid p-4 m-2 rounded-lg gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
+                <div className="sticky grid p-4 m-2 rounded-lg bottom-2 gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
                   <div className="sm:col-span-8">
                     <h3 className="text-lg font-bold text-brand-blue-gray">
                       Sharing is rewarding!
-                    </h3>
+                    </h3>                  
                     <p className="text-gray-700">
                       You earn {lock?.formatted?.referralFee}{" "}
                       {lock?.tokenSymbol} for every person who unlocks this post
