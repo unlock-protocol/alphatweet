@@ -1,5 +1,5 @@
 import { resetCreatePost, useCreatePostState } from "./store";
-import { Layout } from "./Layout";
+import { SideLayout } from "../Layouts/SideLayout";
 import { trpc } from "@/config/trpc";
 import { useRouter } from "next/router";
 import { formatter } from "@/utils/formatters";
@@ -17,7 +17,7 @@ export function Share() {
       enabled: !!post_id,
     });
   return (
-    <Layout>
+    <SideLayout>
       <div>
         <div className="grid gap-6">
           {isPostLoading && <PostPlaceholder />}
@@ -73,7 +73,7 @@ export function Share() {
           </div>
         </div>
       </div>
-    </Layout>
+    </SideLayout>
   );
 }
 

@@ -98,7 +98,7 @@ export function Connected({ children }: ConnectedProps) {
 export function NotConnected() {
   return (
     <div
-      className="flex flex-col max-w-xs gap-6 p-6 rounded-3xl"
+      className="flex flex-col w-full gap-6 p-6 rounded-3xl"
       style={{
         boxShadow: "4px 4px 40px -2px rgba(91, 173, 233, 1)",
       }}

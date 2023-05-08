@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { MouseEventHandler, useState } from "react";
 import { Button } from "../Button";
 import { trpc } from "@/config/trpc";
-import { Layout } from "./Layout";
+import { SideLayout } from "../Layouts/SideLayout";
 
 export function Preview() {
   const [text, setText] = useState("");
@@ -26,7 +26,7 @@ export function Preview() {
     CreatePostState.step = 4;
   };
   return (
-    <Layout>
+    <SideLayout>
       <Header
         title="Create Preview Text"
         subTitle="This is the text people will see when the URL is shared on social media. Get a potential reader's attention with your preview text!"
@@ -48,6 +48,6 @@ export function Preview() {
           Publish It
         </Button>
       </div>
-    </Layout>
+    </SideLayout>
   );
 }

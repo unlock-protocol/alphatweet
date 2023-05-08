@@ -3,15 +3,20 @@ import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
-  size?: "small" | "medium";
+  size?: "small" | "medium" | "long";
 }
 
 export function FeedScroll({ children, size = "medium" }: Props) {
+  const sizeClass = {
+    small: "h-[300px]",
+    medium: "h-[450px]",
+    long: "h-[600px]",
+  }
   return (
     <ScrollArea.Root className="w-full h-full overflow-hidden rounded">
       <ScrollArea.Viewport
         className={`w-full rounded ${
-          size === "small" ? "h-96" : size === "medium" ? "h-[600px]" : ""
+          sizeClass[size] || sizeClass.medium
         }`}
       >
         <div className="pr-3">{children}</div>

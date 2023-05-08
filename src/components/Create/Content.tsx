@@ -2,14 +2,14 @@ import { AppConfig } from "@/config/app";
 import { Button } from "../Button";
 import { Editor } from "../Editor";
 import { CreatePostState } from "./store";
-import { Layout } from "./Layout";
+import { SideLayout } from "../Layouts/SideLayout";
 import { useState } from "react";
 import { Header } from "./Header";
 
 export function Content() {
   const [content, setContent] = useState<undefined | string>("");
   return (
-    <Layout>
+    <SideLayout>
       <div className="space-y-6">
         <Header
           title="Create Content"
@@ -27,6 +27,6 @@ export function Content() {
           Create Post
         </Button>
       </div>
-    </Layout>
+    </SideLayout>
   );
 }
