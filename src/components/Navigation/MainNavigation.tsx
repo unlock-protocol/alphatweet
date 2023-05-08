@@ -40,7 +40,7 @@ export function Navigation() {
             <LogoIcon />
           </NextLink>
         </div>
-        <div className="grid w-full max-w-md grid-flow-col gap-6">
+        <div className="grid items-center w-full max-w-lg grid-flow-col gap-6">
           {NAVIGATIONAL_ITEMS.map((item) => {
             const routerPath = router.pathname
               .split("/")?.[1]
