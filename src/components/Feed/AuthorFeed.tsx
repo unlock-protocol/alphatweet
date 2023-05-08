@@ -29,6 +29,7 @@ export function AuthorFeed({ feedItems, isFeedLoading }: Props) {
               return (
               <NextLink key={item.id} href={href}>
                 <Post
+                  hoverable 
                   loading={isLoading}
                   id={item.id}
                   previewContent={item.preview_content}
