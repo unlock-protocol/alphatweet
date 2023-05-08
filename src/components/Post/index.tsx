@@ -189,7 +189,7 @@ export function Post({ referrer, id }: Props) {
                 </div>
               )}
               {!isPostLoading && post?.hasAccess && (
-                <div className="sticky bottom-0 grid p-4 m-2 rounded-lg gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
+                <div className="sticky grid p-4 m-2 rounded-lg bg-opacity-80 bottom-2 backdrop-blur-xl gap-y-4 sm:items-center gap-x-6 sm:grid-cols-12 bg-brand-blue">
                   <div className="sm:col-span-8">
                     <h3 className="text-lg font-bold text-brand-blue-gray">
                       Sharing is rewarding!
