@@ -14,7 +14,6 @@ import { useSigned } from "@/hooks/useSigned";
 import { useKey } from "@/hooks/useKey";
 import PostLayout from "../Layouts/PostLayout";
 import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg"
-import { toast } from "react-hot-toast";
 import { onWalletInteractionError } from "@/utils/errors";
 interface Props {
   id: string;
@@ -28,12 +27,6 @@ export function Post({ referrer, id }: Props) {
   const { chain } = useNetwork();
   const { switchNetworkAsync, isLoading: isSwitchingNetwork } =
     useSwitchNetwork()
-  const [isCopied, copy] = useClipboard(
-    formatter.AbsoluteURL(`/posts/${id}?referrer=${address}`),
-    {
-      successDuration: 1000,
-    }
-  );
 
   const { mutateAsync: addShare } = trpc.addShare.useMutation();
   const signed = useSigned();
@@ -49,6 +42,15 @@ export function Post({ referrer, id }: Props) {
       return !data?.hasAccess && signed ? 1000 * 30 : 1000 * 60 * 5;
     },
   });
+
+  const referrerAddress =  referrer || post?.author_address 
+
+  const [isCopied, copy] = useClipboard(
+    formatter.AbsoluteURL(`/posts/${id}?referrerAddress=${referrerAddress}`),
+    {
+      successDuration: 1000,
+    }
+  );
 
   const { isLoading: isLockLoading, data: lock } = useLock({
     address: post?.lock_address,
@@ -131,11 +133,11 @@ export function Post({ referrer, id }: Props) {
                     {formatter.minifyAddress(post!.author_address)}
                   </div>
                 </div>
-                {referrer && referrer !== post?.author_address && (
+                {referrerAddress && referrerAddress !== post?.author_address && (
                   <div className="flex-col hidden gap-1 p-4 md:flex">
                     <div className="text-sm text-gray-400"> Referred By</div>
                     <div className="font-bold rounded text-brand-blue">
-                      {formatter.minifyAddress(referrer)}
+                      {formatter.minifyAddress(referrerAddress)}
                     </div>
                   </div>
                 )}

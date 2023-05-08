@@ -9,7 +9,7 @@ import PostLayout from "@/components/Layouts/PostLayout";
 const PostPage: NextPage = ({ preview_content, author_address }: any) => {
   const router = useRouter();
   const id = router.query?.id?.toString();
-  const referrer = router.query?.referrer?.toString();
+  const referrer = router.query?.referrerAddress?.toString() || router.query?.referrer?.toString();
 
   return (
     <div>
@@ -35,7 +35,7 @@ const PostPage: NextPage = ({ preview_content, author_address }: any) => {
           <div> No post found. </div>
         </PostLayout>
       )}
-      {id && <Post id={id} referrer={referrer || author_address} />}
+      {id && <Post id={id} referrer={referrer} />}
     </div>
   );
 };
