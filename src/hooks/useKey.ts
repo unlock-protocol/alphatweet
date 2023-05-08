@@ -17,7 +17,7 @@ export const useKey = ({
     async () => {
       const lock = address!.toLowerCase().trim();
       const owner = ownerAddress!.toLowerCase().trim();
-      const key = subgraph.key(
+      const key = await subgraph.key(
         {
           where: {
             lock,
@@ -28,7 +28,7 @@ export const useKey = ({
           network: network!,
         }
       );
-      return key || {};
+      return key || null;
     },
     {
       enabled: !!address && !!network && !!ownerAddress,
