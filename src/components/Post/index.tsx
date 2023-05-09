@@ -46,7 +46,7 @@ export function Post({ referrer, id }: Props) {
   const referrerAddress =  referrer || post?.author_address 
 
   const [isCopied, copy] = useClipboard(
-    formatter.AbsoluteURL(`/posts/${id}?referrerAddress=${referrerAddress}`),
+    formatter.AbsoluteURL(`/posts/${id}?referrerAddress=${address}`),
     {
       successDuration: 1000,
     }
