@@ -106,7 +106,7 @@ export function NotConnected() {
       <div className="grid gap-6 justify-items-center">
         <Cherry />
         <p>
-          ALPHA tweet enables you to token-gate your tweets & empower your
+          ALPHAtweet enables you to token-gate your tweets & empower your
           followers to earn rewards.
         </p>
       </div>
