@@ -7,6 +7,10 @@ const FOOTER_ITEMS = [
     href: "https://discord.unlock-protocol.com",
   },
   {
+    href: "https://github.com/unlock-protocol/alphatweet",
+    name: "Github",
+  },
+  {
     href: "/privacy",
     name: "Privacy Policy",
   },
