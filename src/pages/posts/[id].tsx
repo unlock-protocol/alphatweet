@@ -58,9 +58,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const post = response.data;
 
   return {
+    
     props: {
       author_address: post?.author_address ?? null,
       preview_content: post?.preview_content ?? null,
+    
     },
   };
 };
