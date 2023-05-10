@@ -12,7 +12,8 @@ interface Props<T = any> {
   label: string;
   items: ComboBoxItem<T>[];
   onChange(config: ComboBoxItem<T>): void;
-  value: ComboBoxItem<T>;
+  value?: ComboBoxItem<T>;
+  defaultValue?: ComboBoxItem<T>;
   disabled?: boolean;
   createItem?(query: string): ComboBoxItem<T>;
 }
@@ -24,6 +25,7 @@ export function ComboBox<T>({
   disabled,
   createItem,
   label,
+  defaultValue,
 }: Props<T>) {
   const [query, setQuery] = useState("");
   const filteredItems =
@@ -37,7 +39,12 @@ export function ComboBox<T>({
         );
 
   return (
-    <Combobox value={value} disabled={disabled} onChange={onChange}>
+    <Combobox
+      value={value}
+      defaultValue={defaultValue}
+      disabled={disabled}
+      onChange={onChange}
+    >
       <div className="relative z-10 mt-1">
         <div className="space-y-2">
           <label
@@ -84,7 +91,7 @@ export function ComboBox<T>({
                   }`
                 }
               >
-                Create &quot;{query}&quot;
+                Add &quot;{query}&quot;
               </Combobox.Option>
             )}
             {filteredItems.map((item) => (
