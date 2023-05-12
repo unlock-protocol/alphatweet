@@ -16,14 +16,21 @@ export const appRouter = router({
   feed: procedure.query(async ({ input }) => {
     const response = await supabaseAdminClient
       .from("posts")
-      .select("id", "preview_content", "lock_address", "lock_network", "author_address", "is_published", "updated_at", "created_at")
+      .select("*")
       .order("updated_at", { ascending: false })
       .filter("is_published", "eq", true)
       .limit(100);
     if (response.error) {
       throw new Error(response.error.message);
     }
-    return z.array(Post).parse(response.data);
+    return z.array(Post).parse(
+      response.data.map((item) => {
+        return {
+          ...item,
+          content: item.preview_content,
+        };
+      })
+    );
   }),
 
   fetchPost: procedure.input(z.string()).query(async ({ input, ctx }) => {
@@ -155,7 +162,14 @@ export const appRouter = router({
       if (response.error) {
         throw new Error(response.error.message);
       }
-      return z.array(Post).parse(response.data);
+      return z.array(Post).parse(
+        response.data.map((item) => {
+          return {
+            ...item,
+            content: item.preview_content,
+          };
+        })
+      );
     }),
 
   authorCreatedFeed: procedure
@@ -167,7 +181,7 @@ export const appRouter = router({
     .query(async ({ input: { address } }) => {
       const response = await supabaseAdminClient
         .from("posts")
-        .select("id", "preview_content", "lock_address", "lock_network", "author_address", "is_published", "updated_at", "created_at")
+        .select("*")
         .eq("is_published", true)
         .eq("author_address", address)
         .order("updated_at", { ascending: false })
@@ -176,7 +190,14 @@ export const appRouter = router({
       if (response.error) {
         throw new Error(response.error.message);
       }
-      return z.array(Post).parse(response.data);
+      return z.array(Post).parse(
+        response.data.map((item) => {
+          return {
+            ...item,
+            content: item.preview_content,
+          };
+        })
+      );
     }),
 
   authorStats: authenticatedProcedure.query(async ({ ctx }) => {
