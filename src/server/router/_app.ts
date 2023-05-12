@@ -16,7 +16,7 @@ export const appRouter = router({
   feed: procedure.query(async ({ input }) => {
     const response = await supabaseAdminClient
       .from("posts")
-      .select("*")
+      .select("id", "preview_content", "lock_address", "lock_network", "author_address", "is_published", "updated_at", "created_at")
       .order("updated_at", { ascending: false })
       .filter("is_published", "eq", true)
       .limit(100);
@@ -167,7 +167,7 @@ export const appRouter = router({
     .query(async ({ input: { address } }) => {
       const response = await supabaseAdminClient
         .from("posts")
-        .select("*")
+        .select("id", "preview_content", "lock_address", "lock_network", "author_address", "is_published", "updated_at", "created_at")
         .eq("is_published", true)
         .eq("author_address", address)
         .order("updated_at", { ascending: false })
