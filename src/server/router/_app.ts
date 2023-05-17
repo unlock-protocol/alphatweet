@@ -179,11 +179,19 @@ export const appRouter = router({
       })
     )
     .query(async ({ input: { address } }) => {
+      const locks = await subgraph.locks({
+        where: {
+          lockManagers_contains: [address.toLowerCase().trim()],
+        },
+      });
       const response = await supabaseAdminClient
         .from("posts")
         .select("*")
         .eq("is_published", true)
-        .eq("author_address", address)
+        .in(
+          "lock_address",
+          locks.map((lock) => lock.address?.toLowerCase()?.trim())
+        )
         .order("updated_at", { ascending: false })
         .limit(100);
 
@@ -194,6 +202,7 @@ export const appRouter = router({
         response.data.map((item) => {
           return {
             ...item,
+            author_address: address,
             content: item.preview_content,
           };
         })
