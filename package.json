@@ -28,7 +28,7 @@
     "@uiw/react-md-editor": "^3.20.8",
     "@unlock-protocol/crypto-icon": "^0.1.1",
     "@unlock-protocol/networks": "^0.0.11",
-    "@unlock-protocol/paywall": "^0.4.0",
+    "@unlock-protocol/paywall": "^0.6.2",
     "@unlock-protocol/unlock-js": "^0.35.3",
     "@vercel/og": "^0.5.3",
     "autoprefixer": "10.4.14",

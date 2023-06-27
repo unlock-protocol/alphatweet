@@ -13,7 +13,7 @@ import useClipboard from "react-use-clipboard";
 import { useSigned } from "@/hooks/useSigned";
 import { useKey } from "@/hooks/useKey";
 import PostLayout from "../Layouts/PostLayout";
-import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg"
+import { CgSpinnerTwo as SpinnerIcon } from "react-icons/cg";
 import { onWalletInteractionError } from "@/utils/errors";
 interface Props {
   id: string;
@@ -26,7 +26,7 @@ export function Post({ referrer, id }: Props) {
 
   const { chain } = useNetwork();
   const { switchNetworkAsync, isLoading: isSwitchingNetwork } =
-    useSwitchNetwork()
+    useSwitchNetwork();
 
   const { mutateAsync: addShare } = trpc.addShare.useMutation();
   const signed = useSigned();
@@ -43,7 +43,7 @@ export function Post({ referrer, id }: Props) {
     },
   });
 
-  const referrerAddress =  referrer || post?.author_address 
+  const referrerAddress = referrer || post?.author_address;
 
   const [isCopied, copy] = useClipboard(
     formatter.AbsoluteURL(`/posts/${id}?referrerAddress=${address}`),
@@ -91,7 +91,7 @@ export function Post({ referrer, id }: Props) {
       network: post.lock_network,
       referrer: referrer || post.author_address,
     });
-    const paywall = new Paywall(config, networks, provider);
+    const paywall = new Paywall(networks);
     await paywall.loadCheckoutModal(config, AppConfig.unlockAppUrl);
   }, [post, connector, referrer]);
   const isSigned = useSigned();
@@ -99,7 +99,7 @@ export function Post({ referrer, id }: Props) {
 
   const isLoading = isPostLoading || isLockLoading;
   const isNetworkMismatch = !isLoading && post?.lock_network !== chain?.id;
-  const isButtonLoading = isSwitchingNetwork || isLoading
+  const isButtonLoading = isSwitchingNetwork || isLoading;
   return (
     <PostLayout showCreateButton={!!post?.hasAccess}>
       <div className="grid w-full border border-brand-pale-blue rounded-xl">
@@ -133,14 +133,15 @@ export function Post({ referrer, id }: Props) {
                     {formatter.minifyAddress(post!.author_address)}
                   </div>
                 </div>
-                {referrerAddress && referrerAddress !== post?.author_address && (
-                  <div className="flex-col hidden gap-1 p-4 md:flex">
-                    <div className="text-sm text-gray-400"> Referred By</div>
-                    <div className="font-bold rounded text-brand-blue">
-                      {formatter.minifyAddress(referrerAddress)}
+                {referrerAddress &&
+                  referrerAddress !== post?.author_address && (
+                    <div className="flex-col hidden gap-1 p-4 md:flex">
+                      <div className="text-sm text-gray-400"> Referred By</div>
+                      <div className="font-bold rounded text-brand-blue">
+                        {formatter.minifyAddress(referrerAddress)}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 {key && !isKeyLoading && (
                   <div className="flex flex-col gap-1 p-4">
                     <div className="text-sm text-gray-400">
@@ -179,31 +180,35 @@ export function Post({ referrer, id }: Props) {
                             event.preventDefault();
                             try {
                               if (isConnected && isSignedIn) {
-                                if(isNetworkMismatch) {
-                                  await switchNetworkAsync?.(post?.lock_network)
+                                if (isNetworkMismatch) {
+                                  await switchNetworkAsync?.(
+                                    post?.lock_network
+                                  );
                                 } else {
                                   await openCheckout();
                                 }
                               } else {
                                 await show?.();
                               }
-                            } catch(error) {
-                              onWalletInteractionError(error)
+                            } catch (error) {
+                              onWalletInteractionError(error);
                             }
                           }}
                           disabled={isButtonLoading}
                           className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-center border rounded-full disabled:cursor-not-allowed disabled:opacity-75 border-brand-dark text-brand-dark"
                         >
                           <span>
-                          {!isSigned 
-                            ? "Connect to Access"
-                            : isNetworkMismatch ? "Switch Network to Access" : lock?.price > 0
-                            ? "Buy Access"
-                            : "Access Content"}
+                            {!isSigned
+                              ? "Connect to Access"
+                              : isNetworkMismatch
+                              ? "Switch Network to Access"
+                              : lock?.price > 0
+                              ? "Buy Access"
+                              : "Access Content"}
                           </span>
-                          {
-                            isButtonLoading &&  <SpinnerIcon  className="animate-spin motion-reduce:invisible " />
-                          }
+                          {isButtonLoading && (
+                            <SpinnerIcon className="animate-spin motion-reduce:invisible " />
+                          )}
                         </button>
                       )}
                     </ConnectKitButton.Custom>
@@ -215,7 +220,7 @@ export function Post({ referrer, id }: Props) {
                   <div className="sm:col-span-8">
                     <h3 className="text-lg font-bold text-brand-blue-gray">
                       Sharing is rewarding!
-                    </h3>                  
+                    </h3>
                     <p className="text-gray-700">
                       You earn {lock?.formatted?.referralFee}{" "}
                       {lock?.tokenSymbol} for every person who unlocks this post
